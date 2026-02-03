@@ -1,0 +1,27 @@
+services:
+
+  app:
+    build: .
+    container_name: app
+    volumes:
+      - .:/var/www
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+
+  db:
+    image: mysql:8
+    container_name: ip_db
+    environment:
+      MYSQL_DATABASE: laravel
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: laravel
+      MYSQL_PASSWORD: secret
+    ports:
+      - "3308:3306"
+    volumes:
+      - dbdata:/var/lib/mysql
+
+volumes:
+  dbdata:
