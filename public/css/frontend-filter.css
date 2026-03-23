@@ -1,0 +1,39 @@
+/* Frontend filter styling */
+.sbox select.cbbox100 {
+    width: 100%;
+}
+
+.sbox select:disabled {
+    background-color: #e9ecef;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.sbox select:not(:disabled) {
+    cursor: pointer;
+}
+
+.sbox select:focus {
+    outline: 2px solid #D4AF37;
+    outline-offset: 2px;
+}
+
+/* Active state when has value */
+.sbox select:not([value=""]):not(:disabled) {
+    background-color: #fff3cd;
+    border-color: #D4AF37;
+}
+
+/* Filter result info */
+.filter-info {
+    padding: 10px;
+    background: #f8f9fa;
+    border-left: 3px solid #D4AF37;
+    margin-bottom: 15px;
+    font-size: 14px;
+    color: #666;
+}
+
+.filter-info strong {
+    color: #1a3a52;
+}

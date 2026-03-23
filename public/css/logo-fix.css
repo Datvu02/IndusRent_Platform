@@ -1,0 +1,68 @@
+/**
+ * Logo fix - Remove white background, proper display on dark header
+ */
+
+/* Logo container styling */
+#header .header-2 .left h1 {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+#header .header-2 .left h1 a {
+    display: inline-block;
+}
+
+/* Logo image - transparent background, proper sizing */
+#header .header-2 .left h1 img.logo-img {
+    max-height: 70px;
+    width: auto;
+    height: auto;
+    display: block;
+    background: transparent;
+    mix-blend-mode: normal;
+}
+
+/* Slogan text - white color on dark background */
+#header .header-2 .left h1 > span {
+    color: #fff;
+    font-size: 13px;
+    font-weight: normal;
+    margin-top: 5px;
+    position: static !important;
+    left: auto !important;
+    display: inline-block !important;
+}
+
+/* Fallback logo text */
+.logo-text {
+    color: #D4AF37;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* Header contact info - ensure white text */
+#header .header-2 .right .contact {
+    color: #fff;
+}
+
+#header .header-2 .right .contact .tel {
+    color: #fff;
+}
+
+#header .header-2 .right .contact .tel h2 {
+    color: #fff;
+    font-size: 12px;
+    font-weight: normal;
+}
+
+/* Top menu text colors */
+#topmn .tmenus ul li a {
+    color: #333;
+}
+
+#topmn .tmenus ul li {
+    color: #666;
+}
