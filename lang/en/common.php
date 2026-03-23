@@ -1,0 +1,43 @@
+<?php
+
+return [
+    'tagline' => 'Warehouse, factory & premises for rent – best prices',
+    'contact_label' => 'Contact',
+    'search' => 'Search',
+    'search_placeholder' => 'Keyword',
+    'footer_products_services' => 'Products & services',
+
+    'area_label' => 'Area',
+    'location_label' => 'Location',
+    'view_detail' => 'View detail',
+    'view_all' => 'View all',
+    'no_items' => 'No items in this category.',
+    'no_items_short' => 'No items yet.',
+    'no_news' => 'No news yet.',
+    'search_results' => 'Search results',
+    'contact_price' => 'Contact',
+    'updated' => 'Updated',
+    'content_updating' => 'Content is being updated.',
+    'rent' => 'Rent',
+    'sale' => 'Sale',
+    'select_category' => 'Select category',
+    'select_city' => 'Select province/city',
+    'select_district' => 'Select district',
+    'select_ward' => 'Select ward',
+    'select_area' => 'Select area',
+    'price_label' => 'Price',
+
+    'listing_warehouse_rent' => 'Warehouse for rent',
+    'listing_warehouse' => 'Warehouse rent',
+    'listing_premises' => 'Premises for rent',
+    'listing_land_sale' => 'Land for sale / Transfer',
+    'listing_warehouse_sale' => 'Warehouse for sale',
+
+    'section_latest_warehouse' => 'LATEST WAREHOUSE FOR RENT',
+    'section_transfer_land' => 'LAND TRANSFER - INDUSTRIAL LAND',
+    'section_latest_premises' => 'LATEST PREMISES / WAREHOUSE TRANSFER',
+    'section_real_estate_news' => 'Real estate news',
+    'section_top_rent' => 'Most viewed for rent',
+    'section_top_transfer' => 'Most viewed for transfer',
+    'slider_placeholder' => 'Ad slider (add images or slider plugin)',
+];

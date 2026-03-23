@@ -1,0 +1,43 @@
+<?php
+
+return [
+    'tagline' => '厂房、仓库、场地出租，价格优惠',
+    'contact_label' => '联系',
+    'search' => '搜索',
+    'search_placeholder' => '关键词',
+    'footer_products_services' => '产品与服务',
+
+    'area_label' => '面积',
+    'location_label' => '区域',
+    'view_detail' => '查看详情',
+    'view_all' => '查看全部',
+    'no_items' => '此分类暂无信息。',
+    'no_items_short' => '暂无信息。',
+    'no_news' => '暂无新闻。',
+    'search_results' => '搜索结果',
+    'contact_price' => '联系',
+    'updated' => '更新',
+    'content_updating' => '内容更新中。',
+    'rent' => '出租',
+    'sale' => '出售',
+    'select_category' => '选择分类',
+    'select_city' => '选择省/市',
+    'select_district' => '选择县/区',
+    'select_ward' => '选择乡/坊',
+    'select_area' => '选择面积',
+    'price_label' => '价格',
+
+    'listing_warehouse_rent' => '厂房出租',
+    'listing_warehouse' => '仓库出租',
+    'listing_premises' => '场地出租',
+    'listing_land_sale' => '土地出售/转让',
+    'listing_warehouse_sale' => '厂房出售',
+
+    'section_latest_warehouse' => '最新厂房出租',
+    'section_transfer_land' => '土地转让 - 工业用地',
+    'section_latest_premises' => '最新厂房/场地转让',
+    'section_real_estate_news' => '房地产新闻',
+    'section_top_rent' => '出租浏览最多',
+    'section_top_transfer' => '转让浏览最多',
+    'slider_placeholder' => '广告轮播（添加图片或插件）',
+];

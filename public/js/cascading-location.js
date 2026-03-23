@@ -1,0 +1,173 @@
+/**
+ * Cascading Location Selector
+ * Chọn Tỉnh → Quận → Xã (auto-load)
+ * Exposes window.reinitCascadingLocation() for re-init after AJAX content load.
+ */
+
+function initCascadingLocation() {
+    const provinceSelect = document.getElementById('province-select');
+    const districtSelect = document.getElementById('district-select');
+    const wardSelect = document.getElementById('ward-select');
+    const locationIdInput = document.getElementById('location_id');
+    const hiddenProvinceInputs = document.querySelectorAll('#search_province, #sidebar_province');
+    const hiddenDistrictInputs = document.querySelectorAll('#search_district, #sidebar_district');
+    
+    if (!provinceSelect || !districtSelect || !wardSelect) return;
+    
+    const currentLocale = document.documentElement.lang || 'vi';
+    
+    // Load tỉnh khi trang load
+    loadProvinces();
+    
+    provinceSelect.addEventListener('change', function() {
+        const province = this.value;
+        
+        districtSelect.innerHTML = '<option value="">-- Chọn Quận/Huyện --</option>';
+        wardSelect.innerHTML = '<option value="">-- Chọn Phường/Xã --</option>';
+        districtSelect.disabled = !province;
+        wardSelect.disabled = true;
+        if (locationIdInput) {
+            locationIdInput.value = '';
+        }
+        hiddenProvinceInputs.forEach(input => input.value = province || '');
+        
+        if (province) {
+            loadDistricts(province);
+        }
+    });
+    
+    // Khi chọn quận → load xã
+    districtSelect.addEventListener('change', function() {
+        const province = provinceSelect.value;
+        const district = this.value;
+        
+        wardSelect.innerHTML = '<option value="">-- Chọn Phường/Xã --</option>';
+        wardSelect.disabled = !district;
+        if (locationIdInput) {
+            locationIdInput.value = '';
+        }
+        hiddenDistrictInputs.forEach(input => input.value = district || '');
+        
+        if (province && district) {
+            loadWards(province, district);
+        }
+    });
+    
+    // Khi chọn xã → set location_id (nếu có hidden input riêng)
+    wardSelect.addEventListener('change', function() {
+        if (locationIdInput) {
+            locationIdInput.value = this.value;
+        }
+    });
+    
+    function loadProvinces() {
+        console.log('Loading provinces from /api/provinces');
+        fetch('/api/provinces')
+            .then(res => {
+                console.log('Provinces response status:', res.status);
+                return res.json();
+            })
+            .then(data => {
+                console.log('Provinces data:', data);
+                provinceSelect.innerHTML = '<option value="">-- Chọn Tỉnh/Thành phố --</option>';
+                
+                data.forEach(item => {
+                    const option = document.createElement('option');
+                    option.value = item.value;
+                    option.textContent = getLocalizedLabel(item);
+                    provinceSelect.appendChild(option);
+                });
+                
+                console.log('Loaded', data.length, 'provinces');
+                
+                // Restore selected value if exists
+                const savedProvince = provinceSelect.dataset.selected;
+                if (savedProvince) {
+                    console.log('Restoring province:', savedProvince);
+                    provinceSelect.value = savedProvince;
+                    provinceSelect.dispatchEvent(new Event('change'));
+                }
+            })
+            .catch(err => console.error('Error loading provinces:', err));
+    }
+    
+    function loadDistricts(province) {
+        console.log('Loading districts for province:', province);
+        fetch(`/api/districts?province=${encodeURIComponent(province)}`)
+            .then(res => {
+                console.log('Districts response status:', res.status);
+                return res.json();
+            })
+            .then(data => {
+                console.log('Districts data:', data);
+                districtSelect.innerHTML = '<option value="">-- Chọn Quận/Huyện --</option>';
+                
+                data.forEach(item => {
+                    const option = document.createElement('option');
+                    option.value = item.value;
+                    option.textContent = getLocalizedLabel(item);
+                    districtSelect.appendChild(option);
+                });
+                
+                districtSelect.disabled = false;
+                console.log('Loaded', data.length, 'districts');
+                
+                // Restore selected value if exists
+                const savedDistrict = districtSelect.dataset.selected;
+                if (savedDistrict) {
+                    console.log('Restoring district:', savedDistrict);
+                    districtSelect.value = savedDistrict;
+                    districtSelect.dispatchEvent(new Event('change'));
+                }
+            })
+            .catch(err => console.error('Error loading districts:', err));
+    }
+    
+    function loadWards(province, district) {
+        console.log('Loading wards for province:', province, 'district:', district);
+        fetch(`/api/wards?province=${encodeURIComponent(province)}&district=${encodeURIComponent(district)}`)
+            .then(res => {
+                console.log('Wards response status:', res.status);
+                return res.json();
+            })
+            .then(data => {
+                console.log('Wards data:', data);
+                wardSelect.innerHTML = '<option value="">-- Chọn Phường/Xã --</option>';
+                
+                data.forEach(item => {
+                    const option = document.createElement('option');
+                    option.value = item.value;
+                    option.textContent = getLocalizedLabel(item);
+                    wardSelect.appendChild(option);
+                });
+                
+                wardSelect.disabled = false;
+                console.log('Loaded', data.length, 'wards');
+                
+                // Restore selected value if exists
+                const savedWard = wardSelect.dataset.selected;
+                if (savedWard) {
+                    console.log('Restoring ward:', savedWard);
+                    wardSelect.value = savedWard;
+                    if (locationIdInput) {
+                        locationIdInput.value = savedWard;
+                    }
+                }
+            })
+            .catch(err => console.error('Error loading wards:', err));
+    }
+    
+    function getLocalizedLabel(item) {
+        if (currentLocale === 'en' && item.label_en) {
+            return item.label_en;
+        }
+        if (currentLocale === 'zh' && item.label_zh) {
+            return item.label_zh;
+        }
+        return item.label;
+    }
+}
+
+window.reinitCascadingLocation = initCascadingLocation;
+
+document.addEventListener('DOMContentLoaded', initCascadingLocation);

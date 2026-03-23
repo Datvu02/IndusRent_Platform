@@ -1,0 +1,317 @@
+/**
+ * Golden Lotus Theme - Phong cách sang trọng, phù hợp với logo hoa sen vàng
+ * Primary: #D4AF37 (Gold)
+ * Secondary: #1a3a52 (Deep Blue)
+ * Accent: #B8860B (Dark Goldenrod)
+ */
+
+:root {
+    --color-primary: #D4AF37;
+    --color-primary-dark: #B8860B;
+    --color-secondary: #1a3a52;
+    --color-secondary-light: #2c5578;
+    --color-text-dark: #263548;
+    --color-text-light: #666666;
+    --color-bg-light: #f8f9fa;
+    --color-white: #ffffff;
+    --color-border: #e0e0e0;
+}
+
+/* Top menu - White background with dark text */
+#topmn {
+    background: var(--color-white);
+    border-bottom: 2px solid var(--color-primary);
+}
+
+#topmn .tmenus ul li a {
+    color: var(--color-text-dark);
+}
+
+#topmn .tmenus ul li a:hover {
+    color: var(--color-primary);
+}
+
+#topmn .tmenus ul li a.kygui {
+    background: var(--color-primary);
+    color: var(--color-white) !important;
+}
+
+#topmn .tmenus .lang a {
+    color: var(--color-text-dark);
+    border: 1px solid var(--color-border);
+    padding: 4px 8px;
+    border-radius: 4px;
+    margin-left: 5px;
+}
+
+#topmn .tmenus .lang a.active {
+    background: var(--color-primary);
+    color: var(--color-white);
+    border-color: var(--color-primary);
+}
+
+#topmn .tmenus .lang a:hover {
+    background: var(--color-primary-dark);
+    color: var(--color-white);
+    border-color: var(--color-primary-dark);
+}
+
+/* Header - Dark blue background with white/gold text */
+#header {
+    background: var(--color-secondary);
+}
+
+#header .header-2 {
+    background: var(--color-secondary);
+}
+
+#header .header-2 .right .contact .tel {
+    color: var(--color-white);
+}
+
+#header .header-2 .right .contact .tel a {
+    color: var(--color-primary);
+    font-weight: bold;
+}
+
+#header .header-2 .right .contact .tel h2 {
+    color: var(--color-white);
+    font-size: 12px;
+    font-weight: normal;
+    margin-top: 4px;
+}
+
+/* Menu chính - Mobile menu (mmenu) */
+#mmenu {
+    background: var(--color-secondary);
+    border-bottom: 2px solid var(--color-primary);
+}
+
+#mmenu .menu > ul > li > a {
+    color: var(--color-white);
+    transition: all 0.3s ease;
+}
+
+#mmenu .menu > ul > li > a:hover {
+    background: var(--color-primary);
+    color: var(--color-white);
+}
+
+#mmenu .menu .dropdown {
+    color: var(--color-white);
+}
+
+#mmenu .cart a {
+    color: var(--color-white);
+}
+
+#mmenu .cart a:hover {
+    color: var(--color-primary);
+}
+
+/* Main navigation (if exists) */
+#mainmn {
+    background: var(--color-primary);
+    box-shadow: 0 2px 8px rgba(212, 175, 55, 0.2);
+}
+
+#mainmn .mainmn ul li a {
+    color: var(--color-white);
+    transition: all 0.3s ease;
+}
+
+#mainmn .mainmn ul li a:hover,
+#mainmn .mainmn ul li.active a {
+    background: var(--color-primary-dark);
+    color: var(--color-white);
+}
+
+/* Buttons */
+.btn-primary,
+button[type="submit"],
+input[type="submit"] {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+    color: var(--color-white);
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover,
+button[type="submit"]:hover,
+input[type="submit"]:hover {
+    background: var(--color-primary-dark);
+    border-color: var(--color-primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+}
+
+/* Links */
+a {
+    color: var(--color-secondary);
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: var(--color-primary);
+}
+
+/* Property Cards */
+.itembox {
+    border: 1px solid var(--color-border);
+    transition: all 0.3s ease;
+}
+
+.itembox:hover {
+    border-color: var(--color-primary);
+    box-shadow: 0 4px 16px rgba(212, 175, 55, 0.15);
+    transform: translateY(-4px);
+}
+
+.itembox .info .tit a {
+    color: var(--color-text-dark);
+}
+
+.itembox .info .tit a:hover {
+    color: var(--color-primary);
+}
+
+.itembox .info .price {
+    color: var(--color-primary);
+    font-weight: bold;
+}
+
+/* Sidebar */
+.right .bxR .tit {
+    background: var(--color-secondary);
+    color: var(--color-white);
+}
+
+.right .bxR .list li a:hover {
+    color: var(--color-primary);
+    padding-left: 20px;
+}
+
+/* Footer */
+#footer {
+    background: var(--color-secondary);
+    color: var(--color-white);
+}
+
+#footer a {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+#footer a:hover {
+    color: var(--color-primary);
+}
+
+/* Search Form */
+.search-form input[type="text"],
+.search-form select {
+    border: 1px solid var(--color-border);
+    transition: border-color 0.3s ease;
+}
+
+.search-form input[type="text"]:focus,
+.search-form select:focus {
+    border-color: var(--color-primary);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+}
+
+/* Pagination */
+.pagination a {
+    border: 1px solid var(--color-border);
+    color: var(--color-text-dark);
+}
+
+.pagination a:hover,
+.pagination a.active {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+    color: var(--color-white);
+}
+
+/* Logo styling - Remove white background, make it fit nicely on dark blue */
+.logo-img {
+    max-height: 70px;
+    width: auto;
+    background: transparent;
+    padding: 8px;
+    border-radius: 8px;
+    filter: drop-shadow(0 2px 8px rgba(212, 175, 55, 0.4));
+    transition: all 0.3s ease;
+}
+
+.logo-img:hover {
+    transform: scale(1.05);
+    filter: drop-shadow(0 4px 12px rgba(212, 175, 55, 0.6));
+}
+
+/* Fix header text colors on dark background */
+#header .header-2 .left h1 a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#header .header-2 .left h1 > span {
+    color: var(--color-white);
+    font-size: 14px;
+    font-weight: normal;
+    position: static !important;
+    left: auto !important;
+}
+
+#header .header-2 .left h1 .logo-text {
+    color: var(--color-primary);
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+    color: var(--color-text-dark);
+}
+
+.pageintro h1 {
+    color: var(--color-secondary);
+    border-bottom: 2px solid var(--color-primary);
+    padding-bottom: 10px;
+}
+
+/* Contact Info */
+.contact-info strong {
+    color: var(--color-primary);
+}
+
+/* News Content */
+.news-content {
+    color: var(--color-text-light);
+    line-height: 1.8;
+}
+
+.news-content h2,
+.news-content h3 {
+    color: var(--color-secondary);
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.news-content a {
+    color: var(--color-primary);
+    text-decoration: underline;
+}
+
+.news-content img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin: 15px 0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .logo-img {
+        max-height: 60px;
+    }
+}

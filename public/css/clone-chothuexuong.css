@@ -1,0 +1,174 @@
+/**
+ * Clone giao diện chothuexuong.com.vn - CSS độc lập (không dùng font/images từ site gốc)
+ */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: #263548;
+  color: #3c3b3b;
+  font-family: "Segoe UI", Tahoma, sans-serif;
+  font-size: 13px;
+  line-height: 1.5;
+}
+a { color: #36c; text-decoration: none; }
+a:hover { text-decoration: underline; }
+ul, li, ol { list-style: none; }
+.clearfix::after { content: ""; display: block; clear: both; }
+
+/* Top menu */
+#topmn { background: #fff; border-bottom: 1px solid #e0e0e0; }
+#topmn .tbox { max-width: 1200px; margin: 0 auto; padding: 0 15px; }
+#topmn .tmenus { position: relative; padding: 8px 0; }
+#topmn .tmenus ul { display: flex; flex-wrap: wrap; align-items: center; gap: 0 5px; }
+#topmn .tmenus ul li { display: inline-block; }
+#topmn .tmenus ul li a { padding: 5px 10px; color: #333; font-size: 13px; }
+#topmn .tmenus ul li a.kygui { background: #4b8606; color: #fff !important; font-weight: bold; }
+#topmn .tmenus .lang { position: absolute; right: 0; top: 50%; transform: translateY(-50%); }
+#topmn .tmenus .lang a { display: inline-block; padding: 2px 4px; }
+#topmn .tmenus .lang a.active { font-weight: bold; color: #4b8606; pointer-events: none; }
+
+/* Header */
+#header { background: #263548; padding: 15px 0; }
+#header .header-2 { max-width: 1200px; margin: 0 auto; padding: 0 15px; display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+#header .header-2 .left { flex: 0 0 25%; min-width: 200px; }
+#header .header-2 .left h1 { margin: 0; padding: 0; }
+#header .header-2 .left h1 img { max-height: 50px; display: block; }
+#header .header-2 .left h1 span { position: absolute; left: -999em; }
+#header .header-2 .mid { flex: 1; text-align: center; min-width: 0; }
+#header .header-2 .right { flex: 0 0 20%; text-align: right; }
+#header .header-2 .right .contact .tel { color: #fff; font-size: 14px; }
+#header .header-2 .right .contact .tel a { color: #fff; font-weight: bold; font-size: 18px; }
+#header .header-2 .right .contact .tel a:hover { text-decoration: none; }
+#header .header-2 .right .contact .icons a { display: inline-block; margin-left: 5px; }
+#header .header-2 .right .contact .icons img { width: 25px; height: auto; vertical-align: middle; }
+
+/* Main container */
+#main { max-width: 1200px; margin: 0 auto; padding: 0 15px; }
+
+/* Mobile menu bar (desktop: nav) */
+#mmenu { background: #263548; padding: 0; }
+#mmenu .menu { display: flex; align-items: center; flex-wrap: wrap; }
+#mmenu .menu > ul { display: flex; flex-wrap: wrap; list-style: none; margin: 0; padding: 0; }
+#mmenu .menu > ul > li { position: relative; }
+#mmenu .menu > ul > li > a { display: block; padding: 12px 18px; color: #fff; font-size: 14px; }
+#mmenu .menu > ul > li > a:hover { background: #4b8606; text-decoration: none; }
+#mmenu .menu .dropdown { color: #fff; font-size: 14px; margin: 0; padding: 12px 15px; }
+#mmenu .cart { margin-left: auto; padding: 12px 15px; }
+#mmenu .cart a { color: #fff; }
+
+/* Home ads = slider + search */
+#homeads { margin: 10px 0; }
+#homeads .box { display: flex; gap: 15px; flex-wrap: wrap; }
+#homeads .box .left { flex: 1 1 70%; min-width: 300px; min-height: 320px; background: #e8e8e8; border: 10px solid #fff; display: flex; align-items: center; justify-content: center; color: #666; }
+#homeads .box .right { flex: 0 1 25%; min-width: 260px; background: #fff; border: 10px solid #fff; padding: 15px; }
+#homeads .box .right .sbox .title { font-weight: bold; margin-bottom: 10px; color: #333; }
+#homeads .box .right .sbox select { width: 100%; padding: 8px; margin-bottom: 8px; border: 1px solid #ccc; }
+#homeads .box .right .sbox input[type="text"] { width: 100%; padding: 8px; margin-bottom: 8px; border: 1px solid #ccc; }
+#homeads .box .right .sbox .sbtn input { background: #4b8606; color: #fff; border: none; padding: 10px 20px; cursor: pointer; font-size: 14px; }
+#homeads .box .right .sbox .sbtn input:hover { background: #3d7005; }
+
+/* Content */
+#content { background: #fff; padding: 20px; margin: 0 0 20px; }
+#content .hpro ul { list-style: none; margin: 0; padding: 0; }
+#content .hpro ul li.title4 span, #content .hpro ul li.title5 span { display: block; color: #c00; font-size: 18px; font-weight: bold; padding: 10px 0; text-transform: uppercase; }
+#content .hpro ul li.title5 { border-top: 2px solid #e0e0e0; margin-top: 15px; padding-top: 10px; }
+#content .hpro ul li.li4 ul, #content .hpro ul li.li5 ul { display: flex; flex-wrap: wrap; gap: 15px; margin: 10px 0; list-style: none; }
+#content .hpro ul li.li4 ul li, #content .hpro ul li.li5 ul li { width: calc(25% - 12px); min-width: 200px; }
+#content .hpro ul li.li4 ul li .thumb, #content .hpro ul li.li5 ul li .thumb { position: relative; min-height: 180px; background: #e8e8e8; border: 1px solid #dadada; background-size: cover; background-position: center; }
+#content .hpro ul li.li4 ul li .thumb .price, #content .hpro ul li.li5 ul li .thumb .price { position: absolute; top: 5px; left: 5px; background: rgba(38,53,74,0.95); color: #fff; padding: 8px 10px; font-size: 13px; }
+#content .hpro ul li.li4 ul li .info, #content .hpro ul li.li5 ul li .info { padding: 10px 0; }
+#content .hpro ul li.li4 ul li .info h2, #content .hpro ul li.li5 ul li .info h2 { margin: 0; font-size: 14px; line-height: 1.4; }
+#content .hpro ul li.li4 ul li .info h2 a, #content .hpro ul li.li5 ul li .info h2 a { color: #444; }
+#content .hpro ul li.more { text-align: right; margin: 10px 0; }
+#content .hpro ul li.more a { display: inline-block; padding: 8px 18px; background: #4b8606; color: #fff !important; font-size: 14px; }
+#content .hpro ul li.more a:hover { text-decoration: none; background: #3d7005; }
+
+#content .line-2 { height: 3px; background: #e0e0e0; margin: 15px 0; }
+
+/* Homebox = left list + right news */
+#content .homebox { display: flex; gap: 20px; flex-wrap: wrap; margin-top: 20px; }
+#content .homebox .left { flex: 1 1 65%; min-width: 300px; }
+#content .homebox .right { flex: 0 1 30%; min-width: 260px; }
+#content .homebox .lepro .title span { display: block; color: #c00; font-size: 18px; font-weight: bold; padding: 10px 0; text-transform: uppercase; }
+#content .homebox .hbrfeatured span { display: block; color: #c00; font-size: 16px; font-weight: bold; padding: 10px 0; }
+#content .homebox .rbox { margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px dotted #ddd; display: flex; gap: 10px; }
+#content .homebox .rbox .image { flex: 0 0 80px; }
+#content .homebox .rbox .image img { width: 100%; height: 60px; object-fit: cover; }
+#content .homebox .rbox .contitle a { color: #333; font-weight: bold; }
+#content .homebox .rbox .condesc { font-size: 12px; color: #666; margin-top: 4px; }
+
+/* Readbox = 2 columns links */
+#content .readbox { display: flex; gap: 20px; flex-wrap: wrap; margin-top: 20px; }
+#content .readbox .releft, #content .readbox .reright { flex: 1 1 45%; min-width: 250px; }
+#content .readbox .refeatured span { display: block; color: #c00; font-weight: bold; padding: 8px 0; }
+#content .readbox .retitle { padding: 4px 0; }
+#content .readbox .retitle a { color: #333; font-size: 13px; }
+
+/* ===== Trang trong (Giới thiệu, Liên hệ, Tin tức, v.v.) ===== */
+#content .listbox { width: 100%; margin: 0; display: flex; gap: 20px; flex-wrap: wrap; }
+#content .listbox .left { flex: 1 1 73%; min-width: 280px; }
+#content .listbox .right { flex: 0 1 25%; min-width: 260px; }
+#content #navi { margin-bottom: 15px; }
+#content #navi .navibox { font-size: 13px; color: #666; }
+#content #navi .navibox a { color: #263548; }
+#content .pageintro { font-size: 14px; line-height: 1.6; color: #222; }
+#content .pageintro p { margin: 0 0 12px; }
+#content .pageintro a { color: #36c; }
+
+/* Form Liên hệ / Nội dung yêu cầu */
+#content #form { padding-top: 10px; }
+#content .formbox { margin-bottom: 12px; }
+#content .formbox .formleft { float: left; width: 140px; padding: 8px 0; font-weight: bold; color: #333; }
+#content .formbox .formright { margin-left: 150px; }
+#content .formbox .formright input[type="text"],
+#content .formbox .formright input[type="email"],
+#content .formbox .formright .txtbox100 { width: 100%; max-width: 400px; padding: 8px 10px; border: 1px solid #ccc; }
+#content .formbox .formright textarea { width: 100%; max-width: 500px; min-height: 120px; padding: 8px; border: 1px solid #ccc; }
+#content .formbox .formright .cbtnform { background: #4b8606; color: #fff; border: none; padding: 10px 24px; cursor: pointer; font-size: 14px; }
+#content .formbox .formright .cbtnform:hover { background: #3d7005; }
+
+/* Sidebar trang trong: form tìm kiếm */
+#content .listbox .right .sbox { padding: 15px 5% 25px; background: #f9f9f9; border: 1px solid #e0e0e0; margin-bottom: 15px; }
+#content .listbox .right .contitle { font-weight: bold; margin-bottom: 10px; color: #333; }
+#content .listbox .right .sbox select,
+#content .listbox .right .sbox input[type="text"] { width: 100%; padding: 8px; margin-bottom: 8px; border: 1px solid #ccc; }
+#content .listbox .right .sbox .sbtn input { background: #4b8606; color: #fff; border: none; padding: 10px 20px; cursor: pointer; width: 100%; }
+#content .listbox .right .lbrfeatured { margin: 15px 0 8px; font-weight: bold; color: #c00; font-size: 14px; }
+#content .listbox .right .rprobox1 { margin-bottom: 15px; border: 1px solid #e0e0e0; padding: 5px; }
+#content .listbox .right .rprobox1 .image { position: relative; min-height: 120px; background: #e8e8e8; }
+#content .listbox .right .rprobox1 .image img { width: 100%; height: 120px; object-fit: cover; display: block; }
+#content .listbox .right .rprobox1 .image .price { position: absolute; top: 5px; left: 5px; background: rgba(38,53,74,0.9); color: #fff; padding: 5px 8px; font-size: 12px; }
+#content .listbox .right .rprobox1 .title { padding: 8px 0; font-size: 13px; }
+#content .listbox .right .rprobox1 .title a { color: #444; }
+#content .listbox .right .cfeatured { margin: 20px 0 10px; padding-top: 10px; border-top: 2px solid #e0e0e0; font-weight: bold; color: #c00; font-size: 14px; text-transform: uppercase; }
+#content .listbox .right .probox6 { display: inline-block; width: 48%; margin: 0 0 12px 2%; vertical-align: top; }
+#content .listbox .right .probox6 .image { min-height: 90px; background: #e8e8e8; }
+#content .listbox .right .probox6 .image img { width: 100%; height: 90px; object-fit: cover; display: block; }
+#content .listbox .right .probox6 .title { padding: 6px 0; font-size: 12px; }
+#content .listbox .right .probox6 .title a { color: #444; }
+
+/* Trang danh sách (cho-thue-nha-xuong, dat-ban, ...) */
+#content .lasted span { display: block; color: #c00; font-size: 18px; font-weight: bold; padding: 10px 0; text-transform: uppercase; }
+#content .probox1 { display: flex; gap: 15px; margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px dotted #ddd; flex-wrap: wrap; }
+#content .probox1 .image { flex: 0 0 22%; min-width: 180px; position: relative; }
+#content .probox1 .image .thumb { min-height: 140px; background: #e8e8e8; background-size: cover; }
+#content .probox1 .image .price { position: absolute; top: 5px; left: 5px; background: rgba(38,53,74,0.9); color: #fff; padding: 6px 10px; font-size: 12px; }
+#content .probox1 .pbright { flex: 1; min-width: 200px; }
+#content .probox1 .pbinfo p, #content .probox1 .pbprice p { margin: 4px 0; font-size: 14px; }
+#content .probox1 .pbdesc { margin-top: 8px; font-size: 14px; color: #444; max-height: 58px; overflow: hidden; }
+#content .pagination { margin: 15px 0; text-align: center; }
+#content .pagination a, #content .pagination span { display: inline-block; padding: 8px 12px; margin: 0 3px; border: 1px solid #ccc; color: #333; }
+#content .pagination a:hover { background: #4b8606; color: #fff; border-color: #4b8606; text-decoration: none; }
+
+/* Footer */
+#bottom { background: #263548; color: #fff; padding: 25px 0; margin-top: 20px; }
+#bottom .box-x41 { max-width: 1200px; margin: 0 auto; padding: 0 15px; }
+#bottom .head span { font-size: 16px; font-weight: bold; }
+#bottom .bmenu { list-style: none; margin: 10px 0 0; padding: 0; columns: 2; column-gap: 20px; }
+#bottom .bmenu li { margin-bottom: 6px; }
+#bottom .bmenu a { color: #ccc; }
+#bottom .bmenu a:hover { color: #fff; text-decoration: none; }
+
+@media (max-width: 768px) {
+  #header .header-2 .left, #header .header-2 .right { flex: 1 1 100%; text-align: center; }
+  #content .hpro ul li.li4 ul li, #content .hpro ul li.li5 ul li { width: 100%; }
+}

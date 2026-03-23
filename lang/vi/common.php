@@ -1,0 +1,43 @@
+<?php
+
+return [
+    'tagline' => 'Cho thuê nhà xưởng, kho xưởng, mặt bằng giá rẻ',
+    'contact_label' => 'Liên hệ',
+    'search' => 'Tìm kiếm',
+    'search_placeholder' => 'Từ khóa tìm kiếm',
+    'footer_products_services' => 'Sản phẩm & dịch vụ',
+
+    'area_label' => 'Diện tích',
+    'location_label' => 'Khu vực',
+    'view_detail' => 'Xem chi tiết',
+    'view_all' => 'Xem toàn bộ',
+    'no_items' => 'Chưa có tin nào trong danh mục này.',
+    'no_items_short' => 'Chưa có tin nào.',
+    'no_news' => 'Chưa có tin tức.',
+    'search_results' => 'Kết quả tìm kiếm',
+    'contact_price' => 'Liên hệ',
+    'updated' => 'Cập nhật',
+    'content_updating' => 'Nội dung đang được cập nhật.',
+    'rent' => 'Cho thuê',
+    'sale' => 'Bán',
+    'select_category' => 'Chọn nhóm',
+    'select_city' => 'Chọn tỉnh/thành phố',
+    'select_district' => 'Chọn quận/huyện',
+    'select_ward' => 'Chọn phường/xã',
+    'select_area' => 'Chọn diện tích',
+    'price_label' => 'Giá',
+
+    'listing_warehouse_rent' => 'Nhà xưởng cho thuê',
+    'listing_warehouse' => 'Kho cho thuê',
+    'listing_premises' => 'Mặt bằng cho thuê',
+    'listing_land_sale' => 'Đất bán / Chuyển nhượng mặt bằng',
+    'listing_warehouse_sale' => 'Nhà xưởng bán',
+
+    'section_latest_warehouse' => 'CHO THUÊ NHÀ XƯỞNG MỚI NHẤT',
+    'section_transfer_land' => 'CHUYỂN NHƯỢNG MẶT BẰNG - ĐẤT CÔNG NGHIỆP',
+    'section_latest_premises' => 'CHUYỂN NHƯỢNG NHÀ XƯỞNG / MẶT BẰNG MỚI NHẤT',
+    'section_real_estate_news' => 'Tin bất động sản',
+    'section_top_rent' => 'Cho thuê xem nhiều nhất',
+    'section_top_transfer' => 'Chuyển nhượng xem nhiều nhất',
+    'slider_placeholder' => 'Slider quảng cáo (thêm ảnh hoặc plugin slider)',
+];
