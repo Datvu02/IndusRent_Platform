@@ -111,12 +111,14 @@
                     <td>{{ $item->formatted_price }}</td>
                     <td>{{ $item->is_published ? 'Đã đăng' : 'Nháp' }}</td>
                     <td class="actions">
-                        <a href="{{ route('admin.tin-dang.edit', $item) }}" class="btn-sm">Sửa</a>
-                        <form action="{{ route('admin.tin-dang.destroy', $item) }}" method="post" style="display:inline;" onsubmit="return confirm('Bạn có chắc muốn xóa tin này?');">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn-sm btn-secondary">Xóa</button>
-                        </form>
+                        <div class="admin-table-actions">
+                            <a href="{{ route('admin.tin-dang.edit', $item) }}" class="admin-table-action admin-table-action--edit"><i class="fas fa-pen" aria-hidden="true"></i> Sửa</a>
+                            <form action="{{ route('admin.tin-dang.destroy', $item) }}" method="post" onsubmit="return confirm('Bạn có chắc muốn xóa tin này?');">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="admin-table-action admin-table-action--delete"><i class="fas fa-trash-alt" aria-hidden="true"></i> Xóa</button>
+                            </form>
+                        </div>
                     </td>
                 </tr>
                 @empty

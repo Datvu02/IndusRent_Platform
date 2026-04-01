@@ -45,27 +45,29 @@ class HomeController extends Controller
 
         $baseQuery = fn () => Property::with('location')->where('is_published', true)->orderByDesc('updated_at');
 
+        $perSection = 4;
+
         $latestWarehouseRent = $typeWarehouseRent
-            ? $baseQuery()->where('type_id', $typeWarehouseRent->id)->limit(4)->get()
+            ? $baseQuery()->where('type_id', $typeWarehouseRent->id)->limit($perSection)->get()
             : collect();
         $latestLandSale = $typeLandSale
-            ? $baseQuery()->where('type_id', $typeLandSale->id)->limit(3)->get()
+            ? $baseQuery()->where('type_id', $typeLandSale->id)->limit($perSection)->get()
             : collect();
         $latestPremises = $typePremises
-            ? $baseQuery()->where('type_id', $typePremises->id)->limit(2)->get()
+            ? $baseQuery()->where('type_id', $typePremises->id)->limit($perSection)->get()
             : collect();
 
         $rentTypeIds = PropertyType::whereIn('slug', ['nha-xuong-cho-thue', 'kho-cho-thue', 'mat-bang-cho-thue'])->pluck('id');
         $transferTypeIds = PropertyType::whereIn('slug', ['dat-ban', 'nha-xuong-ban'])->pluck('id');
 
         $topRent = $rentTypeIds->isNotEmpty()
-            ? $baseQuery()->whereIn('type_id', $rentTypeIds)->limit(3)->get()
+            ? $baseQuery()->whereIn('type_id', $rentTypeIds)->limit($perSection)->get()
             : collect();
         $topTransfer = $transferTypeIds->isNotEmpty()
-            ? $baseQuery()->whereIn('type_id', $transferTypeIds)->limit(3)->get()
+            ? $baseQuery()->whereIn('type_id', $transferTypeIds)->limit($perSection)->get()
             : collect();
 
-        $latestNews = News::orderByDesc('updated_at')->limit(2)->get();
+        $latestNews = News::orderByDesc('updated_at')->limit(6)->get();
         $sliders = Slider::active()->ordered()->get();
 
         return view('frontend.home', [

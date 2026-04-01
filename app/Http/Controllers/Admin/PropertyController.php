@@ -76,6 +76,11 @@ class PropertyController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
+        $request->merge([
+            'latitude' => $request->filled('latitude') ? $request->input('latitude') : null,
+            'longitude' => $request->filled('longitude') ? $request->input('longitude') : null,
+        ]);
+
         $validated = $request->validate([
             "title" => "required|string|max:255",
             "title_en" => "nullable|string|max:255",
@@ -84,12 +89,7 @@ class PropertyController extends Controller
             "description" => "nullable|string",
             "description_en" => "nullable|string",
             "description_zh" => "nullable|string",
-            "type_id" => "required|exists:property_types,id",
-            "location_id" => "required|exists:locations,id",
-            "price" => "nullable|numeric|min:0",
-            "area" => "nullable|integer|min:0",
             "main_image" => "nullable|image|mimes:jpeg,png,jpg,webp|max:2048",
-            "gallery.*" => "nullable|image|mimes:jpeg,png,jpg,webp|max:2048",
         ], [
             "title.required" => "Vui lòng nhập tiêu đề.",
             "type_id.required" => "Vui lòng chọn loại BĐS.",
@@ -103,6 +103,30 @@ class PropertyController extends Controller
         }
         $validated["is_published"] = $request->boolean("is_published");
         $validated["is_featured"] = $request->boolean("is_featured");
+        
+        if (!empty($validated["title"]) && empty($validated["title_en"])) {
+            $validated["title_en"] = \App\Services\TranslationService::translate($validated["title"], 'en');
+        }
+        if (!empty($validated["title"]) && empty($validated["title_zh"])) {
+            $validated["title_zh"] = \App\Services\TranslationService::translate($validated["title"], 'zh');
+        }
+        
+        if (!empty($validated["description"])) {
+            if (empty($validated["description_en"])) {
+                $plainText = strip_tags($validated["description"]);
+                if (strlen($plainText) > 5000) {
+                    $plainText = substr($plainText, 0, 5000);
+                }
+                $validated["description_en"] = \App\Services\TranslationService::translate($plainText, 'en');
+            }
+            if (empty($validated["description_zh"])) {
+                $plainText = strip_tags($validated["description"]);
+                if (strlen($plainText) > 5000) {
+                    $plainText = substr($plainText, 0, 5000);
+                }
+                $validated["description_zh"] = \App\Services\TranslationService::translate($plainText, 'zh');
+            }
+        }
 
         if ($request->hasFile("main_image")) {
             $validated["main_image"] = $this->uploadImage($request->file("main_image"), "properties");
@@ -126,6 +150,11 @@ class PropertyController extends Controller
 
     public function update(Request $request, Property $tin_dang): RedirectResponse
     {
+        $request->merge([
+            'latitude' => $request->filled('latitude') ? $request->input('latitude') : null,
+            'longitude' => $request->filled('longitude') ? $request->input('longitude') : null,
+        ]);
+
         $validated = $request->validate([
             "title" => "required|string|max:255",
             "title_en" => "nullable|string|max:255",
@@ -134,12 +163,7 @@ class PropertyController extends Controller
             "description" => "nullable|string",
             "description_en" => "nullable|string",
             "description_zh" => "nullable|string",
-            "type_id" => "required|exists:property_types,id",
-            "location_id" => "required|exists:locations,id",
-            "price" => "nullable|numeric|min:0",
-            "area" => "nullable|integer|min:0",
             "main_image" => "nullable|image|mimes:jpeg,png,jpg,webp|max:2048",
-            "gallery.*" => "nullable|image|mimes:jpeg,png,jpg,webp|max:2048",
         ], [
             "title.required" => "Vui lòng nhập tiêu đề.",
             "main_image.image" => "File phải là ảnh.",
@@ -150,6 +174,30 @@ class PropertyController extends Controller
         }
         $validated["is_published"] = $request->boolean("is_published");
         $validated["is_featured"] = $request->boolean("is_featured");
+        
+        if (!empty($validated["title"]) && empty($validated["title_en"])) {
+            $validated["title_en"] = \App\Services\TranslationService::translate($validated["title"], 'en');
+        }
+        if (!empty($validated["title"]) && empty($validated["title_zh"])) {
+            $validated["title_zh"] = \App\Services\TranslationService::translate($validated["title"], 'zh');
+        }
+        
+        if (!empty($validated["description"])) {
+            if (empty($validated["description_en"])) {
+                $plainText = strip_tags($validated["description"]);
+                if (strlen($plainText) > 5000) {
+                    $plainText = substr($plainText, 0, 5000);
+                }
+                $validated["description_en"] = \App\Services\TranslationService::translate($plainText, 'en');
+            }
+            if (empty($validated["description_zh"])) {
+                $plainText = strip_tags($validated["description"]);
+                if (strlen($plainText) > 5000) {
+                    $plainText = substr($plainText, 0, 5000);
+                }
+                $validated["description_zh"] = \App\Services\TranslationService::translate($plainText, 'zh');
+            }
+        }
 
         if ($request->hasFile("main_image")) {
             $validated["main_image"] = $this->uploadImage(
@@ -157,12 +205,6 @@ class PropertyController extends Controller
                 "properties",
                 $tin_dang->main_image
             );
-        }
-
-        if ($request->hasFile("gallery")) {
-            $newGallery = $this->uploadMultipleImages($request->file("gallery"), "properties/gallery");
-            $oldGallery = $tin_dang->gallery ?? [];
-            $validated["gallery"] = array_merge($oldGallery, $newGallery);
         }
 
         $tin_dang->update($validated);

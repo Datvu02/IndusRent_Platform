@@ -109,24 +109,15 @@
                                 </span>
                             @endif
                         </td>
-                        <td style="text-align:center;width:130px;vertical-align:middle;white-space:nowrap;">
-                            <a href="{{ route('admin.sliders.edit', $slider) }}" 
-                               class="admin-btn admin-btn-secondary" 
-                               style="font-size:12px;padding:6px 10px;">
-                                Sửa
-                            </a>
-                            <form action="{{ route('admin.sliders.destroy', $slider) }}" 
-                                  method="POST" 
-                                  style="display:inline;" 
-                                  onsubmit="return confirm('Xóa slider này?')">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" 
-                                        class="admin-btn admin-btn-danger" 
-                                        style="font-size:12px;padding:6px 10px;">
-                                    Xóa
-                                </button>
-                            </form>
+                        <td class="actions" style="text-align:center;width:150px;">
+                            <div class="admin-table-actions admin-table-actions--center">
+                                <a href="{{ route('admin.sliders.edit', $slider) }}" class="admin-table-action admin-table-action--edit"><i class="fas fa-pen" aria-hidden="true"></i> Sửa</a>
+                                <form action="{{ route('admin.sliders.destroy', $slider) }}" method="POST" onsubmit="return confirm('Xóa slider này?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="admin-table-action admin-table-action--delete"><i class="fas fa-trash-alt" aria-hidden="true"></i> Xóa</button>
+                                </form>
+                            </div>
                         </td>
                     </tr>
                     @endforeach

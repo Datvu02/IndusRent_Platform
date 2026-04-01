@@ -17,7 +17,11 @@ class SettingController extends Controller
 
     public function update(Request $request)
     {
-        $request->validate(["settings" => "required|array"]);
+        $request->validate([
+            "settings" => "required|array",
+            "settings_en" => "nullable|array",
+            "settings_zh" => "nullable|array",
+        ]);
 
         DB::beginTransaction();
         try {
@@ -31,6 +35,19 @@ class SettingController extends Controller
                         $value = "storage/" . $path;
                     }
                     $setting->value = $value;
+                    
+                    if ($request->has("settings_en.{$key}")) {
+                        $setting->value_en = $request->input("settings_en.{$key}");
+                    } elseif ($setting->type !== "image" && !empty($value)) {
+                        $setting->value_en = \App\Services\TranslationService::translate($value, 'en');
+                    }
+                    
+                    if ($request->has("settings_zh.{$key}")) {
+                        $setting->value_zh = $request->input("settings_zh.{$key}");
+                    } elseif ($setting->type !== "image" && !empty($value)) {
+                        $setting->value_zh = \App\Services\TranslationService::translate($value, 'zh');
+                    }
+                    
                     $setting->save();
                 }
             }

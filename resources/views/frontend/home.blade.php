@@ -104,6 +104,17 @@
     width: 30px;
     border-radius: 6px;
 }
+/* Slider full width; tin nổi bật; form tìm kiếm */
+#homeads .homeads-slider-row .slider-container {
+    display: block;
+    width: 100%;
+    flex: none;
+    min-height: 320px;
+    align-self: stretch;
+}
+.slider-container .slider-item {
+    min-height: 320px;
+}
 </style>
 @endpush
 
@@ -179,10 +190,10 @@ document.addEventListener('DOMContentLoaded', function() {
 @endpush
 
 @section('content')
-    {{-- Slider + Form tìm kiếm --}}
+    {{-- Slider → Tin tức nổi bật → Form tìm kiếm --}}
     <div id="homeads">
-        <div class="box">
-            <div class="left slider-container">
+        <div class="homeads-slider-row">
+            <div class="slider-container">
                 @if($sliders->isNotEmpty())
                     @foreach($sliders as $index => $slide)
                     <div class="slider-item {{ $index === 0 ? 'active' : '' }}" 
@@ -219,49 +230,75 @@ document.addEventListener('DOMContentLoaded', function() {
                     </div>
                 @endif
             </div>
-            <div class="right">
-                <form action="{{ url('/tim-kiem') }}" method="get" class="sbox">
-                    <input type="hidden" name="se" value="true">
-                    <div class="title">{{ __('common.search') }}:</div>
-                    <div>
-                        <select name="trans" class="cbbox100">
-                            <option value="1" selected>{{ __('common.rent') }}</option>
-                            <option value="2">{{ __('common.sale') }}</option>
-                        </select>
-                    </div>
-                    <div>
-                        <select name="mnu">
-                            <option value="">{{ __('common.select_category') }}</option>
-                            @foreach($propertyTypes ?? [] as $t)
-                                <option value="{{ $t->id }}">{{ $t->name_translated }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div>
-                        <select name="city">
-                            <option value="">{{ __('common.select_city') }}</option>
-                            @foreach($locations ?? [] as $loc)
-                                <option value="{{ $loc->id }}">{{ $loc->province_translated }} - {{ $loc->district_translated }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div>
-                        <select name="area">
-                            <option value="0" selected>{{ __('common.select_area') }}</option>
-                            <option value="100^500">100 - 500 m²</option>
-                            <option value="500^1000">500 - 1.000 m²</option>
-                            <option value="1000^2000">1.000 - 2.000 m²</option>
-                            <option value="2000^5000">2.000 - 5.000 m²</option>
-                        </select>
-                    </div>
-                    <div>
-                        <input type="text" name="skey" placeholder="{{ __('common.search_placeholder') }}..." value="{{ request('skey') }}">
-                    </div>
-                    <div class="sbtn">
-                        <input type="submit" name="btnSearch" value="{{ __('common.search') }}">
-                    </div>
-                </form>
+        </div>
+
+        @if($latestNews->isNotEmpty())
+        <section class="home-featured-news" aria-label="{{ __('common.section_real_estate_news') }}">
+            <div class="home-featured-news-inner">
+                <h2 class="home-featured-news-title">{{ __('common.section_real_estate_news') }}</h2>
+                <div class="home-featured-news-grid">
+                    @foreach($latestNews as $news)
+                    <article class="home-featured-news-card">
+                        <a href="{{ url('/tin-tuc/'.$news->slug) }}" class="home-featured-news-card-link">
+                            <div class="home-featured-news-card-img">
+                                @if($news->featured_image)
+                                    <img src="{{ asset('storage/'.$news->featured_image) }}" alt="{{ $news->title_translated }}">
+                                @else
+                                    <span class="home-featured-news-card-placeholder" aria-hidden="true"></span>
+                                @endif
+                            </div>
+                            <h3 class="home-featured-news-card-title">{{ $news->title_translated }}</h3>
+                        </a>
+                    </article>
+                    @endforeach
+                </div>
+                <p class="home-featured-news-more"><a href="{{ url('/tin-tuc') }}">{{ __('common.view_all') }} →</a></p>
             </div>
+        </section>
+        @endif
+
+        <div class="homeads-search-row">
+            <form action="{{ url('/tim-kiem') }}" method="get" class="sbox">
+                <input type="hidden" name="se" value="true">
+                <div class="title">{{ __('common.search') }}:</div>
+                <div>
+                    <select name="trans" class="cbbox100">
+                        <option value="1" selected>{{ __('common.rent') }}</option>
+                        <option value="2">{{ __('common.sale') }}</option>
+                    </select>
+                </div>
+                <div>
+                    <select name="mnu">
+                        <option value="">{{ __('common.select_category') }}</option>
+                        @foreach($propertyTypes ?? [] as $t)
+                            <option value="{{ $t->id }}">{{ $t->name_translated }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div>
+                    <select name="city">
+                        <option value="">{{ __('common.select_city') }}</option>
+                        @foreach($locations ?? [] as $loc)
+                            <option value="{{ $loc->id }}">{{ $loc->province_translated }} - {{ $loc->district_translated }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div>
+                    <select name="area">
+                        <option value="0" selected>{{ __('common.select_area') }}</option>
+                        <option value="100^500">100 - 500 m²</option>
+                        <option value="500^1000">500 - 1.000 m²</option>
+                        <option value="1000^2000">1.000 - 2.000 m²</option>
+                        <option value="2000^5000">2.000 - 5.000 m²</option>
+                    </select>
+                </div>
+                <div>
+                    <input type="text" name="skey" placeholder="{{ __('common.search_placeholder') }}..." value="{{ request('skey') }}">
+                </div>
+                <div class="sbtn">
+                    <input type="submit" name="btnSearch" value="{{ __('common.search') }}">
+                </div>
+            </form>
         </div>
     </div>
 
@@ -312,54 +349,32 @@ document.addEventListener('DOMContentLoaded', function() {
 
         <div class="line-2"></div>
 
-        {{-- Cột trái: BĐS mới nhất (mặt bằng) | Cột phải: Tin tức --}}
-        <div class="homebox">
-            <div class="left">
-                <div class="lepro">
-                    <ul>
-                        <li class="title"><span>{{ __('common.section_latest_premises') }}</span></li>
-                        <li>
-                            <ul>
-                                @forelse($latestPremises ?? [] as $item)
-                                <li>
-                                    <h2><a href="{{ $item['url'] ?? '#' }}">{{ $item['title'] ?? '' }}</a></h2>
-                                    <div class="lecon">
-                                        <div class="thumb" style="background:#e0e0e0; min-height:120px; width:30%; float:left; margin-right:15px; @if(!empty($item['image'])) background-image:url('{{ $item['image'] }}'); background-size:cover; @endif"></div>
-                                        <div class="info">
-                                            <p>{{ __('common.area_label') }}: {{ $item['area'] ?? '—' }} | {{ __('common.location_label') }}: {{ $item['location'] ?? '—' }}</p>
-                                            <p><strong>{{ $item['price'] ?? __('common.contact_price') }}</strong></p>
-                                        </div>
-                                        <div class="clearfix"></div>
+        {{-- Mặt bằng cho thuê mới nhất (full width) --}}
+        <div class="homebox homebox-full">
+            <div class="lepro">
+                <ul>
+                    <li class="title"><span>{{ __('common.section_latest_premises') }}</span></li>
+                    <li>
+                        <ul>
+                            @forelse($latestPremises ?? [] as $item)
+                            <li>
+                                <h2><a href="{{ $item['url'] ?? '#' }}">{{ $item['title'] ?? '' }}</a></h2>
+                                <div class="lecon">
+                                    <div class="thumb" style="background:#e0e0e0; min-height:120px; width:30%; float:left; margin-right:15px; @if(!empty($item['image'])) background-image:url('{{ $item['image'] }}'); background-size:cover; @endif"></div>
+                                    <div class="info">
+                                        <p>{{ __('common.area_label') }}: {{ $item['area'] ?? '—' }} | {{ __('common.location_label') }}: {{ $item['location'] ?? '—' }}</p>
+                                        <p><strong>{{ $item['price'] ?? __('common.contact_price') }}</strong></p>
                                     </div>
-                                </li>
-                                @empty
-                                <li style="padding:15px;color:#666;">{{ __('common.no_items_short') }}</li>
-                                @endforelse
-                            </ul>
-                        </li>
-                        <li class="more"><a href="{{ url('/cho-thue-mat-bang') }}">{{ __('common.view_all') }} →</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="right">
-                <div class="hbrfeatured"><span>{{ __('common.section_real_estate_news') }}</span></div>
-                @forelse($latestNews ?? [] as $news)
-                <div class="rbox">
-                    <div class="image">
-                        @if($news->featured_image)
-                            <img src="{{ asset('storage/'.$news->featured_image) }}" alt="" style="width:80px;height:60px;object-fit:cover;">
-                        @else
-                            <div style="width:80px;height:60px;background:#e0e0e0;"></div>
-                        @endif
-                    </div>
-                    <div class="con">
-                        <div class="contitle"><a href="{{ url('/tin-tuc/'.$news->slug) }}">{{ $news->title_translated }}</a></div>
-                        <div class="condesc">{{ Str::limit(strip_tags($news->content_translated ?? $news->content ?? ''), 100) }}</div>
-                    </div>
-                </div>
-                @empty
-                <p style="color:#666;font-size:13px;">{{ __('common.no_news') }}</p>
-                @endforelse
+                                    <div class="clearfix"></div>
+                                </div>
+                            </li>
+                            @empty
+                            <li style="padding:15px;color:#666;">{{ __('common.no_items_short') }}</li>
+                            @endforelse
+                        </ul>
+                    </li>
+                    <li class="more"><a href="{{ url('/cho-thue-mat-bang') }}">{{ __('common.view_all') }} →</a></li>
+                </ul>
             </div>
         </div>
 

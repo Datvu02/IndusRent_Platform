@@ -23,6 +23,8 @@ class Property extends Model
         'description_zh',
         'type_id',
         'location_id',
+        'latitude',
+        'longitude',
         'price',
         'area',
         'main_image',
@@ -33,6 +35,8 @@ class Property extends Model
 
     protected $casts = [
         'price' => 'decimal:2',
+        'latitude' => 'decimal:7',
+        'longitude' => 'decimal:7',
         'area' => 'integer',
         'is_featured' => 'boolean',
         'is_published' => 'boolean',
