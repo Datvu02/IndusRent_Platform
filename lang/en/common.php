@@ -26,6 +26,7 @@ return [
     'select_ward' => 'Select ward',
     'select_area' => 'Select area',
     'price_label' => 'Price',
+    'map_location' => 'Location on map',
 
     'listing_warehouse_rent' => 'Warehouse for rent',
     'listing_warehouse' => 'Warehouse rent',

@@ -67,6 +67,30 @@ class NewsController extends Controller
         if (empty($validated["slug"])) {
             $validated["slug"] = Str::slug($validated["title"]);
         }
+        
+        if (!empty($validated["title"]) && empty($validated["title_en"])) {
+            $validated["title_en"] = \App\Services\TranslationService::translate($validated["title"], 'en');
+        }
+        if (!empty($validated["title"]) && empty($validated["title_zh"])) {
+            $validated["title_zh"] = \App\Services\TranslationService::translate($validated["title"], 'zh');
+        }
+        
+        if (!empty($validated["content"])) {
+            if (empty($validated["content_en"])) {
+                $plainText = strip_tags($validated["content"]);
+                if (strlen($plainText) > 5000) {
+                    $plainText = substr($plainText, 0, 5000);
+                }
+                $validated["content_en"] = \App\Services\TranslationService::translate($plainText, 'en');
+            }
+            if (empty($validated["content_zh"])) {
+                $plainText = strip_tags($validated["content"]);
+                if (strlen($plainText) > 5000) {
+                    $plainText = substr($plainText, 0, 5000);
+                }
+                $validated["content_zh"] = \App\Services\TranslationService::translate($plainText, 'zh');
+            }
+        }
 
         if ($request->hasFile("featured_image")) {
             $validated["featured_image"] = $this->uploadImage($request->file("featured_image"), "news");
@@ -109,6 +133,30 @@ class NewsController extends Controller
 
         if (empty($validated["slug"])) {
             $validated["slug"] = Str::slug($validated["title"]);
+        }
+        
+        if (!empty($validated["title"]) && empty($validated["title_en"])) {
+            $validated["title_en"] = \App\Services\TranslationService::translate($validated["title"], 'en');
+        }
+        if (!empty($validated["title"]) && empty($validated["title_zh"])) {
+            $validated["title_zh"] = \App\Services\TranslationService::translate($validated["title"], 'zh');
+        }
+        
+        if (!empty($validated["content"])) {
+            if (empty($validated["content_en"])) {
+                $plainText = strip_tags($validated["content"]);
+                if (strlen($plainText) > 5000) {
+                    $plainText = substr($plainText, 0, 5000);
+                }
+                $validated["content_en"] = \App\Services\TranslationService::translate($plainText, 'en');
+            }
+            if (empty($validated["content_zh"])) {
+                $plainText = strip_tags($validated["content"]);
+                if (strlen($plainText) > 5000) {
+                    $plainText = substr($plainText, 0, 5000);
+                }
+                $validated["content_zh"] = \App\Services\TranslationService::translate($plainText, 'zh');
+            }
         }
 
         if ($request->hasFile("featured_image")) {

@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Cache;
 class Setting extends Model
 {
     protected $fillable = [
-        "key", "value", "type", "group", "label",
+        "key", "value", "value_en", "value_zh", "type", "group", "label",
         "label_en", "label_zh", "description", "order",
     ];
 
@@ -16,9 +16,25 @@ class Setting extends Model
 
     public static function get(string $key, $default = null)
     {
-        return Cache::remember("setting_{$key}", 3600, function () use ($key, $default) {
+        $locale = app()->getLocale();
+        $cacheKey = "setting_{$key}_{$locale}";
+        
+        return Cache::remember($cacheKey, 3600, function () use ($key, $default, $locale) {
             $setting = self::where("key", $key)->first();
-            return $setting ? $setting->value : $default;
+            
+            if (!$setting) {
+                return $default;
+            }
+            
+            if ($locale === 'en' && !empty($setting->value_en)) {
+                return $setting->value_en;
+            }
+            
+            if ($locale === 'zh' && !empty($setting->value_zh)) {
+                return $setting->value_zh;
+            }
+            
+            return $setting->value ?: $default;
         });
     }
 

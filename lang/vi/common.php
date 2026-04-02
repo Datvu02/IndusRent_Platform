@@ -26,6 +26,7 @@ return [
     'select_ward' => 'Chọn phường/xã',
     'select_area' => 'Chọn diện tích',
     'price_label' => 'Giá',
+    'map_location' => 'Vị trí trên bản đồ',
 
     'listing_warehouse_rent' => 'Nhà xưởng cho thuê',
     'listing_warehouse' => 'Kho cho thuê',

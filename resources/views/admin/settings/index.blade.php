@@ -62,18 +62,25 @@
 <div class="tab-pane fade {{ $loop->first ? "show active" : "" }}" id="{{ $group }}">
 <div class="row">
 @foreach($items as $setting)
-<div class="col-12 col-md-6">
+<div class="col-12">
 <div class="setting-group">
 <label class="form-label">{{ $setting->label }} @if($setting->label_en)<small>({{ $setting->label_en }})</small>@endif</label>
+@if($setting->description)<small class="form-text text-muted d-block mb-2"><i class="fas fa-info-circle"></i> {{ $setting->description }}</small>@endif
+
 @if($setting->type === "textarea")
 <textarea name="settings[{{ $setting->key }}]" class="form-control" rows="4" placeholder="Nhập {{ strtolower($setting->label) }}">{{ old("settings.{$setting->key}", $setting->value) }}</textarea>
 @elseif($setting->type === "image")
 <input type="file" name="settings[{{ $setting->key }}]" class="form-control" accept="image/*">
-@if($setting->value)<img src="{{ asset($setting->value) }}" alt="{{ $setting->label }}" class="image-preview">@endif
+@if($setting->value)<img src="{{ asset($setting->value) }}" alt="{{ $setting->label }}" class="image-preview mt-2">@endif
 @else
 <input type="{{ $setting->type === "phone" ? "tel" : $setting->type }}" name="settings[{{ $setting->key }}]" class="form-control" value="{{ old("settings.{$setting->key}", $setting->value) }}" placeholder="Nhập {{ strtolower($setting->label) }}">
 @endif
-@if($setting->description)<small class="form-text text-muted"><i class="fas fa-info-circle"></i> {{ $setting->description }}</small>@endif
+@if($setting->type !== "image")
+<small style="color:#28a745;display:block;margin-top:6px;">
+    <i class="fas fa-language"></i> Hệ thống sẽ tự động dịch sang English và 中文 khi lưu.
+</small>
+@endif
+
 </div></div>
 @endforeach
 </div></div>

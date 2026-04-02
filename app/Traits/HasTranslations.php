@@ -5,7 +5,10 @@ namespace App\Traits;
 trait HasTranslations
 {
     /**
-     * Trả về giá trị đã dịch theo locale hiện tại (vi -> gốc, en -> _en, zh -> _zh).
+     * Trả về giá trị đã dịch theo locale hiện tại.
+     * - vi: trả về giá trị gốc (field không có suffix)
+     * - en: trả về field có suffix _en, nếu trống thì fallback về tiếng Việt
+     * - zh: trả về field có suffix _zh, nếu trống thì fallback về tiếng Việt
      */
     public function getTranslated(string $attribute): ?string
     {
@@ -34,3 +37,4 @@ trait HasTranslations
         return $this->getAttribute($attribute);
     }
 }
+

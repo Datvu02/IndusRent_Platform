@@ -26,6 +26,7 @@ return [
     'select_ward' => '选择乡/坊',
     'select_area' => '选择面积',
     'price_label' => '价格',
+    'map_location' => '地图位置',
 
     'listing_warehouse_rent' => '厂房出租',
     'listing_warehouse' => '仓库出租',

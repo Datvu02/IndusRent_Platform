@@ -82,6 +82,8 @@
                     💡 Chọn lần lượt: Tỉnh → Quận → Phường/Xã
                 </small>
             </div>
+
+            @include('admin.partials.property-map-picker', ['lat' => old('latitude', $property->latitude), 'lng' => old('longitude', $property->longitude)])
             
             <div style="margin-bottom:16px;">
                 <label style="display:block;font-weight:bold;margin-bottom:6px;">Giá (VNĐ)</label>
@@ -125,24 +127,11 @@
             </div>
             
             <div style="margin-bottom:16px;">
-                <label style="display:block;font-weight:bold;margin-bottom:6px;">Mô tả (Tiếng Việt)</label>
+                <label style="display:block;font-weight:bold;margin-bottom:6px;">Mô tả</label>
                 <textarea name="description" class="tinymce-editor">{{ old('description', $property->description) }}</textarea>
-            </div>
-            <div style="margin-bottom:16px;">
-                <label style="display:block;font-weight:bold;margin-bottom:6px;">Tiêu đề (Tiếng Anh) – tùy chọn</label>
-                <input type="text" name="title_en" value="{{ old('title_en', $property->title_en) }}" style="width:100%;max-width:600px;padding:8px;">
-            </div>
-            <div style="margin-bottom:16px;">
-                <label style="display:block;font-weight:bold;margin-bottom:6px;">Mô tả (Tiếng Anh) – tùy chọn</label>
-                <textarea name="description_en" class="tinymce-editor">{{ old('description_en', $property->description_en) }}</textarea>
-            </div>
-            <div style="margin-bottom:16px;">
-                <label style="display:block;font-weight:bold;margin-bottom:6px;">Tiêu đề (中文) – tùy chọn</label>
-                <input type="text" name="title_zh" value="{{ old('title_zh', $property->title_zh) }}" style="width:100%;max-width:600px;padding:8px;">
-            </div>
-            <div style="margin-bottom:16px;">
-                <label style="display:block;font-weight:bold;margin-bottom:6px;">Mô tả (中文) – tùy chọn</label>
-                <textarea name="description_zh" class="tinymce-editor">{{ old('description_zh', $property->description_zh) }}</textarea>
+                <small style="color:#28a745;display:block;margin-top:6px;">
+                    <i class="fas fa-language"></i> Hệ thống sẽ tự động dịch sang English và 中文 khi lưu.
+                </small>
             </div>
             <div style="margin-bottom:16px;">
                 <label style="margin-right:20px;"><input type="checkbox" name="is_published" value="1" {{ old('is_published', $property->is_published) ? 'checked' : '' }}> Đăng lên trang chủ</label>
