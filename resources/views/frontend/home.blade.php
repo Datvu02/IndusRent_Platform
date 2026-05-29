@@ -271,18 +271,19 @@ document.addEventListener('DOMContentLoaded', function() {
                     <select name="mnu">
                         <option value="">{{ __('common.select_category') }}</option>
                         @foreach($propertyTypes ?? [] as $t)
-                            <option value="{{ $t->id }}">{{ $t->name_translated }}</option>
+                            <option value="{{ $t->id }}">
+                                {{ $t->name_translated }}
+                            </option>
                         @endforeach
                     </select>
                 </div>
                 <div>
-                    <select name="city">
+                    <select id="province-select" data-selected="{{ request('_province') }}">
                         <option value="">{{ __('common.select_city') }}</option>
-                        @foreach($locations ?? [] as $loc)
-                            <option value="{{ $loc->id }}">{{ $loc->province_translated }} - {{ $loc->district_translated }}</option>
-                        @endforeach
                     </select>
                 </div>
+                <div><select id="district-select" disabled data-selected="{{ request('_district') }}"><option value="">{{ __('common.select_district') }}</option></select></div>
+                <div><select id="ward-select" name="location_id" disabled data-selected="{{ request('location_id') }}"><option value="">{{ __('common.select_ward') }}</option></select></div>
                 <div>
                     <select name="area">
                         <option value="0" selected>{{ __('common.select_area') }}</option>

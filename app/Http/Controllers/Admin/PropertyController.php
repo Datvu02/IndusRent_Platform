@@ -11,6 +11,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
+use \App\Services\TranslationService;
 
 class PropertyController extends Controller
 {
@@ -89,6 +90,12 @@ class PropertyController extends Controller
             "description" => "nullable|string",
             "description_en" => "nullable|string",
             "description_zh" => "nullable|string",
+            "type_id" => "required|exists:property_types,id",
+            "location_id" => "required|exists:locations,id",
+            "latitude" => "nullable|numeric|between:-90,90",
+            "longitude" => "nullable|numeric|between:-180,180",
+            "price" => "nullable|numeric|min:0",
+            "area" => "nullable|integer|min:0",
             "main_image" => "nullable|image|mimes:jpeg,png,jpg,webp|max:2048",
         ], [
             "title.required" => "Vui lòng nhập tiêu đề.",
@@ -105,26 +112,22 @@ class PropertyController extends Controller
         $validated["is_featured"] = $request->boolean("is_featured");
         
         if (!empty($validated["title"]) && empty($validated["title_en"])) {
-            $validated["title_en"] = \App\Services\TranslationService::translate($validated["title"], 'en');
+            $validated["title_en"] = TranslationService::translate($validated["title"], 'en');
         }
         if (!empty($validated["title"]) && empty($validated["title_zh"])) {
-            $validated["title_zh"] = \App\Services\TranslationService::translate($validated["title"], 'zh');
+            $validated["title_zh"] = TranslationService::translate($validated["title"], 'zh');
         }
         
         if (!empty($validated["description"])) {
+            $plainText = strip_tags($validated["description"]);
+            if (strlen($plainText) > 5000) {
+                $plainText = substr($plainText, 0, 5000);
+            }
             if (empty($validated["description_en"])) {
-                $plainText = strip_tags($validated["description"]);
-                if (strlen($plainText) > 5000) {
-                    $plainText = substr($plainText, 0, 5000);
-                }
-                $validated["description_en"] = \App\Services\TranslationService::translate($plainText, 'en');
+                $validated["description_en"] = TranslationService::translate($plainText, 'en');
             }
             if (empty($validated["description_zh"])) {
-                $plainText = strip_tags($validated["description"]);
-                if (strlen($plainText) > 5000) {
-                    $plainText = substr($plainText, 0, 5000);
-                }
-                $validated["description_zh"] = \App\Services\TranslationService::translate($plainText, 'zh');
+                $validated["description_zh"] = TranslationService::translate($plainText, 'zh');
             }
         }
 
@@ -163,10 +166,19 @@ class PropertyController extends Controller
             "description" => "nullable|string",
             "description_en" => "nullable|string",
             "description_zh" => "nullable|string",
+            "type_id" => "required|exists:property_types,id",
+            "location_id" => "required|exists:locations,id",
+            "latitude" => "nullable|numeric|between:-90,90",
+            "longitude" => "nullable|numeric|between:-180,180",
+            "price" => "nullable|numeric|min:0",
+            "area" => "nullable|integer|min:0",
             "main_image" => "nullable|image|mimes:jpeg,png,jpg,webp|max:2048",
         ], [
             "title.required" => "Vui lòng nhập tiêu đề.",
+            "type_id.required" => "Vui lòng chọn loại BĐS.",
+            "location_id.required" => "Vui lòng chọn khu vực.",
             "main_image.image" => "File phải là ảnh.",
+            "main_image.max" => "Ảnh không được vượt quá 2MB.",
         ]);
 
         if (empty($validated["slug"])) {
@@ -176,26 +188,22 @@ class PropertyController extends Controller
         $validated["is_featured"] = $request->boolean("is_featured");
         
         if (!empty($validated["title"]) && empty($validated["title_en"])) {
-            $validated["title_en"] = \App\Services\TranslationService::translate($validated["title"], 'en');
+            $validated["title_en"] = TranslationService::translate($validated["title"], 'en');
         }
         if (!empty($validated["title"]) && empty($validated["title_zh"])) {
-            $validated["title_zh"] = \App\Services\TranslationService::translate($validated["title"], 'zh');
+            $validated["title_zh"] = TranslationService::translate($validated["title"], 'zh');
         }
         
         if (!empty($validated["description"])) {
+            $plainText = strip_tags($validated["description"]);
+            if (strlen($plainText) > 5000) {
+                $plainText = substr($plainText, 0, 5000);
+            }
             if (empty($validated["description_en"])) {
-                $plainText = strip_tags($validated["description"]);
-                if (strlen($plainText) > 5000) {
-                    $plainText = substr($plainText, 0, 5000);
-                }
-                $validated["description_en"] = \App\Services\TranslationService::translate($plainText, 'en');
+                $validated["description_en"] = TranslationService::translate($plainText, 'en');
             }
             if (empty($validated["description_zh"])) {
-                $plainText = strip_tags($validated["description"]);
-                if (strlen($plainText) > 5000) {
-                    $plainText = substr($plainText, 0, 5000);
-                }
-                $validated["description_zh"] = \App\Services\TranslationService::translate($plainText, 'zh');
+                $validated["description_zh"] = TranslationService::translate($plainText, 'zh');
             }
         }
 

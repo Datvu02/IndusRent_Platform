@@ -56,6 +56,19 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Force HTTPS URL Generation
+    |--------------------------------------------------------------------------
+    |
+    | When enabled, the application will generate HTTPS links for url(),
+    | asset(), and route() helpers. Useful when your site is served over
+    | SSL or behind a reverse proxy that terminates TLS.
+    |
+    */
+
+    'force_https' => (bool) env('FORCE_HTTPS', false),
+
+    /*
+    |--------------------------------------------------------------------------
     | Application Timezone
     |--------------------------------------------------------------------------
     |

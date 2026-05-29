@@ -7,6 +7,7 @@ use App\Models\News;
 use App\Traits\ImageUploadTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use \App\Services\TranslationService;
 
 class NewsController extends Controller
 {
@@ -69,26 +70,22 @@ class NewsController extends Controller
         }
         
         if (!empty($validated["title"]) && empty($validated["title_en"])) {
-            $validated["title_en"] = \App\Services\TranslationService::translate($validated["title"], 'en');
+            $validated["title_en"] = TranslationService::translate($validated["title"], 'en');
         }
         if (!empty($validated["title"]) && empty($validated["title_zh"])) {
-            $validated["title_zh"] = \App\Services\TranslationService::translate($validated["title"], 'zh');
+            $validated["title_zh"] = TranslationService::translate($validated["title"], 'zh');
         }
         
         if (!empty($validated["content"])) {
+            $plainText = strip_tags($validated["content"]);
+            if (mb_strlen($plainText) > 5000) {
+                $plainText = mb_substr($plainText, 0, 5000);
+            }
             if (empty($validated["content_en"])) {
-                $plainText = strip_tags($validated["content"]);
-                if (strlen($plainText) > 5000) {
-                    $plainText = substr($plainText, 0, 5000);
-                }
-                $validated["content_en"] = \App\Services\TranslationService::translate($plainText, 'en');
+                $validated["content_en"] = TranslationService::translate($plainText, 'en');
             }
             if (empty($validated["content_zh"])) {
-                $plainText = strip_tags($validated["content"]);
-                if (strlen($plainText) > 5000) {
-                    $plainText = substr($plainText, 0, 5000);
-                }
-                $validated["content_zh"] = \App\Services\TranslationService::translate($plainText, 'zh');
+                $validated["content_zh"] = TranslationService::translate($plainText, 'zh');
             }
         }
 
@@ -136,26 +133,22 @@ class NewsController extends Controller
         }
         
         if (!empty($validated["title"]) && empty($validated["title_en"])) {
-            $validated["title_en"] = \App\Services\TranslationService::translate($validated["title"], 'en');
+            $validated["title_en"] = TranslationService::translate($validated["title"], 'en');
         }
         if (!empty($validated["title"]) && empty($validated["title_zh"])) {
-            $validated["title_zh"] = \App\Services\TranslationService::translate($validated["title"], 'zh');
+            $validated["title_zh"] = TranslationService::translate($validated["title"], 'zh');
         }
         
         if (!empty($validated["content"])) {
+            $plainText = strip_tags($validated["content"]);
+            if (strlen($plainText) > 5000) {
+                $plainText = mb_strlen($plainText, 0, 5000);
+            }
             if (empty($validated["content_en"])) {
-                $plainText = strip_tags($validated["content"]);
-                if (strlen($plainText) > 5000) {
-                    $plainText = substr($plainText, 0, 5000);
-                }
-                $validated["content_en"] = \App\Services\TranslationService::translate($plainText, 'en');
+                $validated["content_en"] = TranslationService::translate($plainText, 'en');
             }
             if (empty($validated["content_zh"])) {
-                $plainText = strip_tags($validated["content"]);
-                if (strlen($plainText) > 5000) {
-                    $plainText = substr($plainText, 0, 5000);
-                }
-                $validated["content_zh"] = \App\Services\TranslationService::translate($plainText, 'zh');
+                $validated["content_zh"] = TranslationService::translate($plainText, 'zh');
             }
         }
 

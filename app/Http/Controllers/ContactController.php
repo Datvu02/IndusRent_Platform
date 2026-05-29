@@ -11,7 +11,28 @@ class ContactController extends Controller
 {
     public function showContactForm(): View
     {
+        $captcha = $this->generateCaptcha();
+        session(['captcha_code' => $captcha]);
+        
         return view('frontend.pages.lien-he');
+    }
+    
+    private function generateCaptcha(): string
+    {
+        $characters = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+        $captcha = '';
+        for ($i = 0; $i < 6; $i++) {
+            $captcha .= $characters[rand(0, strlen($characters) - 1)];
+        }
+        return $captcha;
+    }
+    
+    public function refreshCaptcha()
+    {
+        $captcha = $this->generateCaptcha();
+        session(['captcha_code' => $captcha]);
+        
+        return response()->json(['captcha' => $captcha]);
     }
 
     public function storeContact(Request $request): RedirectResponse
@@ -24,9 +45,18 @@ class ContactController extends Controller
             'txtcValue05' => 'nullable|string|max:50',
             'txtcValue06' => 'nullable|email',
             'txtcValue08' => 'nullable|string|max:5000',
+            'captcha' => 'required|string',
         ], [
             'txtcValue01.required' => 'Vui lòng nhập họ và tên.',
+            'captcha.required' => 'Vui lòng nhập mã bảo vệ.',
         ]);
+        
+        $sessionCaptcha = session('captcha_code');
+        if (!$sessionCaptcha || strtoupper($validated['captcha']) !== strtoupper($sessionCaptcha)) {
+            return redirect()->back()
+                ->withInput()
+                ->withErrors(['captcha' => 'Mã bảo vệ không đúng. Vui lòng thử lại.']);
+        }
 
         Inquiry::create([
             'type' => 'contact',

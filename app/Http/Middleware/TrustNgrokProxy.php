@@ -10,12 +10,16 @@ use Symfony\Component\HttpFoundation\Response;
 class TrustNgrokProxy
 {
     /**
-     * When accessed via ngrok, force HTTPS so asset() and url() generate correct URLs.
+     * Force HTTPS URL generation for ngrok or when enabled by env.
      */
     public function handle(Request $request, Closure $next): Response
     {
         $host = $request->getHost();
-        if (str_ends_with($host, '.ngrok-free.app') || str_ends_with($host, '.ngrok-free.dev')) {
+
+        $isNgrokHost = str_ends_with($host, '.ngrok-free.app') || str_ends_with($host, '.ngrok-free.dev');
+        $forceHttps = (bool) config('app.force_https', false);
+
+        if ($isNgrokHost || $forceHttps) {
             URL::forceScheme('https');
         }
 

@@ -11,6 +11,7 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ListingController;
 use App\Models\News;
+use App\Models\Property;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/welcome', function () {
@@ -30,6 +31,67 @@ Route::get('/test-location', function () {
     return view('test-location');
 });
 
+Route::get('/sitemap.xml', function () {
+    $staticPages = [
+        '/',
+        '/gioi-thieu',
+        '/lien-he',
+        '/noi-dung-yeu-cau',
+        '/dich-vu',
+        '/tin-tuc',
+        '/cho-thue-nha-xuong',
+        '/cho-thue-kho',
+        '/cho-thue-mat-bang',
+        '/dat-ban',
+        '/nha-xuong-ban',
+        '/danh-sach-quan-tam',
+    ];
+
+    $urls = [];
+
+    foreach ($staticPages as $path) {
+        $urls[] = [
+            'loc' => url($path),
+            'lastmod' => now()->toAtomString(),
+            'changefreq' => 'daily',
+            'priority' => $path === '/' ? '1.0' : '0.8',
+        ];
+    }
+
+    $properties = Property::query()
+        ->where('is_published', true)
+        ->select('slug', 'updated_at')
+        ->orderByDesc('updated_at')
+        ->get();
+
+    foreach ($properties as $property) {
+        $urls[] = [
+            'loc' => url('/tin-dang/' . $property->slug),
+            'lastmod' => optional($property->updated_at)->toAtomString() ?? now()->toAtomString(),
+            'changefreq' => 'weekly',
+            'priority' => '0.7',
+        ];
+    }
+
+    $newsItems = News::query()
+        ->select('slug', 'updated_at')
+        ->orderByDesc('updated_at')
+        ->get();
+
+    foreach ($newsItems as $item) {
+        $urls[] = [
+            'loc' => url('/tin-tuc/' . $item->slug),
+            'lastmod' => optional($item->updated_at)->toAtomString() ?? now()->toAtomString(),
+            'changefreq' => 'weekly',
+            'priority' => '0.6',
+        ];
+    }
+
+    $xml = view('sitemap', compact('urls'))->render();
+
+    return response($xml, 200)->header('Content-Type', 'application/xml');
+});
+
 Route::get('/', [HomeController::class, 'index']);
 
 Route::get('/gioi-thieu', function () {
@@ -37,6 +99,7 @@ Route::get('/gioi-thieu', function () {
 });
 Route::get('/lien-he', [ContactController::class, 'showContactForm'])->name('lien-he');
 Route::post('/lien-he', [ContactController::class, 'storeContact']);
+Route::get('/refresh-captcha', [ContactController::class, 'refreshCaptcha']);
 Route::get('/noi-dung-yeu-cau', [ContactController::class, 'showRequestForm']);
 Route::post('/noi-dung-yeu-cau', [ContactController::class, 'storeRequest']);
 Route::get('/dich-vu', function () {
