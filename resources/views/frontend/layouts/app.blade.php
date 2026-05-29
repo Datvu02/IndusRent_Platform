@@ -24,10 +24,6 @@
 
     @include('frontend.partials.footer')
 
-    <script>
-        console.log('Frontend layout loaded');
-        console.log('Cascading script path:', '{{ asset("js/cascading-location.js") }}');
-    </script>
     <script src="{{ asset('js/cascading-location.js') }}"></script>
     <script src="{{ asset('js/search-ajax.js') }}"></script>
     @stack('scripts')

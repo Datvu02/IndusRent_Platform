@@ -61,14 +61,11 @@ function initCascadingLocation() {
     });
     
     function loadProvinces() {
-        console.log('Loading provinces from /api/provinces');
         fetch('/api/provinces')
             .then(res => {
-                console.log('Provinces response status:', res.status);
                 return res.json();
             })
             .then(data => {
-                console.log('Provinces data:', data);
                 provinceSelect.innerHTML = '<option value="">-- Chọn Tỉnh/Thành phố --</option>';
                 
                 data.forEach(item => {
@@ -78,12 +75,10 @@ function initCascadingLocation() {
                     provinceSelect.appendChild(option);
                 });
                 
-                console.log('Loaded', data.length, 'provinces');
                 
                 // Restore selected value if exists
                 const savedProvince = provinceSelect.dataset.selected;
                 if (savedProvince) {
-                    console.log('Restoring province:', savedProvince);
                     provinceSelect.value = savedProvince;
                     provinceSelect.dispatchEvent(new Event('change'));
                 }
@@ -92,14 +87,11 @@ function initCascadingLocation() {
     }
     
     function loadDistricts(province) {
-        console.log('Loading districts for province:', province);
         fetch(`/api/districts?province=${encodeURIComponent(province)}`)
             .then(res => {
-                console.log('Districts response status:', res.status);
                 return res.json();
             })
             .then(data => {
-                console.log('Districts data:', data);
                 districtSelect.innerHTML = '<option value="">-- Chọn Quận/Huyện --</option>';
                 
                 data.forEach(item => {
@@ -110,12 +102,10 @@ function initCascadingLocation() {
                 });
                 
                 districtSelect.disabled = false;
-                console.log('Loaded', data.length, 'districts');
                 
                 // Restore selected value if exists
                 const savedDistrict = districtSelect.dataset.selected;
                 if (savedDistrict) {
-                    console.log('Restoring district:', savedDistrict);
                     districtSelect.value = savedDistrict;
                     districtSelect.dispatchEvent(new Event('change'));
                 }
@@ -124,14 +114,11 @@ function initCascadingLocation() {
     }
     
     function loadWards(province, district) {
-        console.log('Loading wards for province:', province, 'district:', district);
         fetch(`/api/wards?province=${encodeURIComponent(province)}&district=${encodeURIComponent(district)}`)
             .then(res => {
-                console.log('Wards response status:', res.status);
                 return res.json();
             })
             .then(data => {
-                console.log('Wards data:', data);
                 wardSelect.innerHTML = '<option value="">-- Chọn Phường/Xã --</option>';
                 
                 data.forEach(item => {
@@ -142,12 +129,10 @@ function initCascadingLocation() {
                 });
                 
                 wardSelect.disabled = false;
-                console.log('Loaded', data.length, 'wards');
                 
                 // Restore selected value if exists
                 const savedWard = wardSelect.dataset.selected;
                 if (savedWard) {
-                    console.log('Restoring ward:', savedWard);
                     wardSelect.value = savedWard;
                     if (locationIdInput) {
                         locationIdInput.value = savedWard;

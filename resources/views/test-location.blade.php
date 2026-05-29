@@ -131,7 +131,6 @@
         function addLog(message) {
             const timestamp = new Date().toLocaleTimeString();
             logDiv.textContent += `[${timestamp}] ${message}\n`;
-            console.log(message);
         }
         
         document.getElementById('province-select').addEventListener('change', function() {

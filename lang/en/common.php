@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'tagline' => 'Warehouse, factory & premises for rent – best prices',
+    'tagline' => 'Rich Hưng Thịnh',
     'contact_label' => 'Contact',
     'search' => 'Search',
     'search_placeholder' => 'Keyword',
