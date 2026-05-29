@@ -37,6 +37,7 @@ Route::get('/gioi-thieu', function () {
 });
 Route::get('/lien-he', [ContactController::class, 'showContactForm'])->name('lien-he');
 Route::post('/lien-he', [ContactController::class, 'storeContact']);
+Route::get('/refresh-captcha', [ContactController::class, 'refreshCaptcha']);
 Route::get('/noi-dung-yeu-cau', [ContactController::class, 'showRequestForm']);
 Route::post('/noi-dung-yeu-cau', [ContactController::class, 'storeRequest']);
 Route::get('/dich-vu', function () {
