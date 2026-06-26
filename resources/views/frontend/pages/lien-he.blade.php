@@ -1,6 +1,6 @@
 @extends('frontend.layouts.app')
 
-@section('title', 'Liên hệ')
+@section('title', __('menu.contact'))
 
 @push('styles')
 <style>
@@ -68,55 +68,55 @@
                 <form action="{{ url('/lien-he') }}" method="post" name="corder" id="corder">
                     @csrf
                     <div class="formbox">
-                        <div class="formleft">Họ và tên</div>
+                        <div class="formleft">{{ __('forms.full_name') }}</div>
                         <div class="formright"><input name="txtcValue01" type="text" value="{{ old('txtcValue01') }}" class="txtbox100"></div>
                         <div class="clearfix"></div>
                     </div>
                     <div class="formbox">
-                        <div class="formleft">Công ty</div>
+                        <div class="formleft">{{ __('forms.company') }}</div>
                         <div class="formright"><input name="txtcValue02" type="text" value="{{ old('txtcValue02') }}" class="txtbox100"></div>
                         <div class="clearfix"></div>
                     </div>
                     <div class="formbox">
-                        <div class="formleft">Quốc tịch</div>
+                        <div class="formleft">{{ __('forms.nationality') }}</div>
                         <div class="formright"><input name="txtcValue03" type="text" value="{{ old('txtcValue03') }}" class="txtbox100"></div>
                         <div class="clearfix"></div>
                     </div>
                     <div class="formbox">
-                        <div class="formleft">Địa chỉ</div>
+                        <div class="formleft">{{ __('forms.address') }}</div>
                         <div class="formright"><input name="txtcValue04" type="text" value="{{ old('txtcValue04') }}" class="txtbox100"></div>
                         <div class="clearfix"></div>
                     </div>
                     <div class="formbox">
-                        <div class="formleft">Điện thoại</div>
+                        <div class="formleft">{{ __('forms.phone') }}</div>
                         <div class="formright"><input name="txtcValue05" type="text" value="{{ old('txtcValue05') }}" class="txtbox100"></div>
                         <div class="clearfix"></div>
                     </div>
                     <div class="formbox">
-                        <div class="formleft">Email</div>
+                        <div class="formleft">{{ __('forms.email') }}</div>
                         <div class="formright"><input name="txtcValue06" type="email" value="{{ old('txtcValue06') }}" class="txtbox100"></div>
                         <div class="clearfix"></div>
                     </div>
                     <div class="formbox">
-                        <div class="formleft">Nội dung yêu cầu</div>
+                        <div class="formleft">{{ __('forms.request_content') }}</div>
                         <div class="formright"><textarea name="txtcValue08" rows="10" class="txtarea100">{{ old('txtcValue08') }}</textarea></div>
                         <div class="clearfix"></div>
                     </div>
                     <div class="formbox">
-                        <div class="formleft">Mã bảo vệ&nbsp;(<span>*</span>)</div>
+                        <div class="formleft">{{ __('forms.captcha') }}&nbsp;(<span>*</span>)</div>
                         <div class="formright">
                             <div class="contact-captcha-wrap">
-                                <input name="captcha" type="text" value="{{ old('captcha') }}" placeholder="Nhập mã bảo vệ" style="width:140px;padding:10px;border:2px solid #ccc;border-radius:6px;font-size:14px;" required>
+                                <input name="captcha" type="text" value="{{ old('captcha') }}" placeholder="{{ __('forms.captcha_placeholder') }}" style="width:140px;padding:10px;border:2px solid #ccc;border-radius:6px;font-size:14px;" required>
                                 <span class="contact-captcha-display" id="captcha-display">{{ session('captcha_code', 'ABCD') }}</span>
-                                <button type="button" class="contact-captcha-refresh" onclick="refreshCaptcha()" title="Làm mới mã">↻</button>
+                                <button type="button" class="contact-captcha-refresh" onclick="refreshCaptcha()" title="{{ __('forms.captcha_refresh') }}">↻</button>
                             </div>
-                            <small style="display:block;margin-top:6px;color:#666;">Nhập chính xác mã bảo vệ bên cạnh</small>
+                            <small style="display:block;margin-top:6px;color:#666;">{{ __('forms.captcha_hint') }}</small>
                         </div>
                         <div class="clearfix"></div>
                     </div>
                     <div class="formbox">
                         <div class="formleft">&nbsp;</div>
-                        <div class="formright"><input type="submit" name="button" class="cbtnform" value="Gửi yêu cầu"></div>
+                        <div class="formright"><input type="submit" name="button" class="cbtnform" value="{{ __('forms.submit_request') }}"></div>
                         <div class="clearfix"></div>
                     </div>
                 </form>

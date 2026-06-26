@@ -6,15 +6,16 @@ use App\Http\Controllers\Controller;
 use App\Models\Location;
 use App\Models\Property;
 use App\Models\PropertyType;
+use App\Traits\AutoTranslatesOnSave;
 use App\Traits\ImageUploadTrait;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
-use \App\Services\TranslationService;
 
 class PropertyController extends Controller
 {
+    use AutoTranslatesOnSave;
     use ImageUploadTrait;
 
     public function index(Request $request): View
@@ -84,18 +85,14 @@ class PropertyController extends Controller
 
         $validated = $request->validate([
             "title" => "required|string|max:255",
-            "title_en" => "nullable|string|max:255",
-            "title_zh" => "nullable|string|max:255",
             "slug" => "nullable|string|max:255|unique:properties,slug",
             "description" => "nullable|string",
-            "description_en" => "nullable|string",
-            "description_zh" => "nullable|string",
             "type_id" => "required|exists:property_types,id",
             "location_id" => "required|exists:locations,id",
-            "latitude" => "nullable|numeric|between:-90,90",
-            "longitude" => "nullable|numeric|between:-180,180",
             "price" => "nullable|numeric|min:0",
             "area" => "nullable|integer|min:0",
+            "latitude" => "nullable|numeric",
+            "longitude" => "nullable|numeric",
             "main_image" => "nullable|image|mimes:jpeg,png,jpg,webp|max:2048",
         ], [
             "title.required" => "Vui lòng nhập tiêu đề.",
@@ -110,33 +107,14 @@ class PropertyController extends Controller
         }
         $validated["is_published"] = $request->boolean("is_published");
         $validated["is_featured"] = $request->boolean("is_featured");
-        
-        if (!empty($validated["title"]) && empty($validated["title_en"])) {
-            $validated["title_en"] = TranslationService::translate($validated["title"], 'en');
-        }
-        if (!empty($validated["title"]) && empty($validated["title_zh"])) {
-            $validated["title_zh"] = TranslationService::translate($validated["title"], 'zh');
-        }
-        
-        if (!empty($validated["description"])) {
-            $plainText = strip_tags($validated["description"]);
-            if (strlen($plainText) > 5000) {
-                $plainText = substr($plainText, 0, 5000);
-            }
-            if (empty($validated["description_en"])) {
-                $validated["description_en"] = TranslationService::translate($plainText, 'en');
-            }
-            if (empty($validated["description_zh"])) {
-                $validated["description_zh"] = TranslationService::translate($plainText, 'zh');
-            }
-        }
+
+        $validated = $this->applyAutoTranslations($validated, [
+            'title' => 'line',
+            'description' => 'html',
+        ]);
 
         if ($request->hasFile("main_image")) {
             $validated["main_image"] = $this->uploadImage($request->file("main_image"), "properties");
-        }
-
-        if ($request->hasFile("gallery")) {
-            $validated["gallery"] = $this->uploadMultipleImages($request->file("gallery"), "properties/gallery");
         }
 
         Property::create($validated);
@@ -160,25 +138,18 @@ class PropertyController extends Controller
 
         $validated = $request->validate([
             "title" => "required|string|max:255",
-            "title_en" => "nullable|string|max:255",
-            "title_zh" => "nullable|string|max:255",
             "slug" => "nullable|string|max:255|unique:properties,slug," . $tin_dang->id,
             "description" => "nullable|string",
-            "description_en" => "nullable|string",
-            "description_zh" => "nullable|string",
             "type_id" => "required|exists:property_types,id",
             "location_id" => "required|exists:locations,id",
-            "latitude" => "nullable|numeric|between:-90,90",
-            "longitude" => "nullable|numeric|between:-180,180",
             "price" => "nullable|numeric|min:0",
             "area" => "nullable|integer|min:0",
+            "latitude" => "nullable|numeric",
+            "longitude" => "nullable|numeric",
             "main_image" => "nullable|image|mimes:jpeg,png,jpg,webp|max:2048",
         ], [
             "title.required" => "Vui lòng nhập tiêu đề.",
-            "type_id.required" => "Vui lòng chọn loại BĐS.",
-            "location_id.required" => "Vui lòng chọn khu vực.",
             "main_image.image" => "File phải là ảnh.",
-            "main_image.max" => "Ảnh không được vượt quá 2MB.",
         ]);
 
         if (empty($validated["slug"])) {
@@ -186,26 +157,11 @@ class PropertyController extends Controller
         }
         $validated["is_published"] = $request->boolean("is_published");
         $validated["is_featured"] = $request->boolean("is_featured");
-        
-        if (!empty($validated["title"]) && empty($validated["title_en"])) {
-            $validated["title_en"] = TranslationService::translate($validated["title"], 'en');
-        }
-        if (!empty($validated["title"]) && empty($validated["title_zh"])) {
-            $validated["title_zh"] = TranslationService::translate($validated["title"], 'zh');
-        }
-        
-        if (!empty($validated["description"])) {
-            $plainText = strip_tags($validated["description"]);
-            if (strlen($plainText) > 5000) {
-                $plainText = substr($plainText, 0, 5000);
-            }
-            if (empty($validated["description_en"])) {
-                $validated["description_en"] = TranslationService::translate($plainText, 'en');
-            }
-            if (empty($validated["description_zh"])) {
-                $validated["description_zh"] = TranslationService::translate($plainText, 'zh');
-            }
-        }
+
+        $validated = $this->applyAutoTranslations($validated, [
+            'title' => 'line',
+            'description' => 'html',
+        ]);
 
         if ($request->hasFile("main_image")) {
             $validated["main_image"] = $this->uploadImage(

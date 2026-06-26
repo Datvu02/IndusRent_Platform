@@ -4,11 +4,14 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Setting;
+use App\Traits\AutoTranslatesOnSave;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class SettingController extends Controller
 {
+    use AutoTranslatesOnSave;
+
     public function index()
     {
         $settings = Setting::orderBy("group")->orderBy("order")->get()->groupBy("group");
@@ -19,8 +22,6 @@ class SettingController extends Controller
     {
         $request->validate([
             "settings" => "required|array",
-            "settings_en" => "nullable|array",
-            "settings_zh" => "nullable|array",
         ]);
 
         DB::beginTransaction();
@@ -34,20 +35,19 @@ class SettingController extends Controller
                         $path = $file->storeAs("settings", $filename, "public");
                         $value = "storage/" . $path;
                     }
-                    $setting->value = $value;
-                    
-                    if ($request->has("settings_en.{$key}")) {
-                        $setting->value_en = $request->input("settings_en.{$key}");
-                    } elseif ($setting->type !== "image" && !empty($value)) {
-                        $setting->value_en = \App\Services\TranslationService::translate($value, 'en');
+
+                    if ($setting->type !== 'image') {
+                        $translated = $this->applyAutoTranslations(
+                            ['value' => $value ?? ''],
+                            ['value' => $setting->type === 'textarea' ? 'html' : 'line']
+                        );
+                        $setting->value = $translated['value'];
+                        $setting->value_en = $translated['value_en'];
+                        $setting->value_zh = $translated['value_zh'];
+                    } else {
+                        $setting->value = $value;
                     }
-                    
-                    if ($request->has("settings_zh.{$key}")) {
-                        $setting->value_zh = $request->input("settings_zh.{$key}");
-                    } elseif ($setting->type !== "image" && !empty($value)) {
-                        $setting->value_zh = \App\Services\TranslationService::translate($value, 'zh');
-                    }
-                    
+
                     $setting->save();
                 }
             }

@@ -26,6 +26,7 @@
             <div style="margin-bottom:16px;">
                 <label style="display:block;font-weight:bold;margin-bottom:6px;">Tiêu đề <span style="color:red;">*</span></label>
                 <input type="text" name="title" value="{{ old('title') }}" style="width:100%;max-width:600px;padding:8px;" required>
+                @include('admin.partials.auto-translate-note')
             </div>
             <div style="margin-bottom:16px;">
                 <label style="display:block;font-weight:bold;margin-bottom:6px;">Slug (để trống tự tạo từ tiêu đề)</label>
@@ -85,8 +86,8 @@
             @include('admin.partials.property-map-picker', ['lat' => old('latitude'), 'lng' => old('longitude')])
             
             <div style="margin-bottom:16px;">
-                <label style="display:block;font-weight:bold;margin-bottom:6px;">Giá (VNĐ, để trống = Liên hệ)</label>
-                <input type="number" name="price" value="{{ old('price') }}" step="1000" min="0" style="width:100%;max-width:300px;padding:8px;">
+                <label style="display:block;font-weight:bold;margin-bottom:6px;">{{ __('common.price_usd') }} ({{ __('common.contact_price') }} nếu để trống)</label>
+                <input type="number" name="price" value="{{ old('price') }}" step="0.01" min="0" style="width:100%;max-width:300px;padding:8px;" placeholder="{{ __('common.currency_symbol') }}">
             </div>
             <div style="margin-bottom:16px;">
                 <label style="display:block;font-weight:bold;margin-bottom:6px;">Diện tích (m²)</label>
@@ -94,29 +95,17 @@
             </div>
             
             <div style="margin-bottom:16px;padding:16px;background:#f8f9fa;border-radius:8px;">
-                <div style="margin-bottom:16px;">
-                    <label style="display:block;font-weight:bold;margin-bottom:6px;">
-                        <i class="fas fa-image"></i> Ảnh đại diện
-                    </label>
-                    <input type="file" name="main_image" accept="image/*" class="form-control" style="max-width:600px;">
-                    <small style="color:#666;">JPG, PNG, WebP. Tối đa 2MB</small>
-                </div>
-                
-                <div style="margin-bottom:16px;">
-                    <label style="display:block;font-weight:bold;margin-bottom:6px;">
-                        <i class="fas fa-images"></i> Ảnh thư viện (nhiều ảnh)
-                    </label>
-                    <input type="file" name="gallery[]" accept="image/*" multiple class="form-control" style="max-width:600px;">
-                    <small style="color:#666;">Chọn nhiều ảnh cùng lúc. JPG, PNG, WebP. Mỗi ảnh tối đa 2MB</small>
-                </div>
+                <label style="display:block;font-weight:bold;margin-bottom:6px;">
+                    <i class="fas fa-image"></i> Ảnh đại diện
+                </label>
+                <input type="file" name="main_image" accept="image/*" class="form-control" style="max-width:600px;">
+                <small style="color:#666;">JPG, PNG, WebP. Tối đa 2MB</small>
             </div>
             
             <div style="margin-bottom:16px;">
                 <label style="display:block;font-weight:bold;margin-bottom:6px;">Mô tả</label>
                 <textarea name="description" class="tinymce-editor">{{ old('description') }}</textarea>
-                <small style="color:#28a745;display:block;margin-top:6px;">
-                    <i class="fas fa-language"></i> Hệ thống sẽ tự động dịch sang English và 中文 khi lưu.
-                </small>
+                @include('admin.partials.auto-translate-note')
             </div>
             <div style="margin-bottom:16px;">
                 <label style="margin-right:20px;"><input type="checkbox" name="is_published" value="1" {{ old('is_published') ? 'checked' : '' }}> Đăng lên trang chủ</label>

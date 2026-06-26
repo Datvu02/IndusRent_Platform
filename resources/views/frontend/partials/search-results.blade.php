@@ -7,7 +7,7 @@
             <div class="lasted">
                 <span>{{ $listingTitle }}</span>
                 @if(isset($pagination))
-                    <span style="font-size:13px;color:#666;font-weight:normal;margin-left:10px;">({{ $pagination->total() }} kết quả)</span>
+                    <span style="font-size:13px;color:#666;font-weight:normal;margin-left:10px;">({{ __('common.results_count', ['count' => $pagination->total()]) }})</span>
                 @endif
             </div>
             <div class="featured" style="margin-top:15px;">

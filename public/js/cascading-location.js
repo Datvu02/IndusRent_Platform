@@ -15,6 +15,10 @@ function initCascadingLocation() {
     if (!provinceSelect || !districtSelect || !wardSelect) return;
     
     const currentLocale = document.documentElement.lang || 'vi';
+    const placeholders = window.locationI18n || {};
+    const phProvince = placeholders.province || '--';
+    const phDistrict = placeholders.district || '--';
+    const phWard = placeholders.ward || '--';
     
     // Load tỉnh khi trang load
     loadProvinces();
@@ -22,8 +26,8 @@ function initCascadingLocation() {
     provinceSelect.addEventListener('change', function() {
         const province = this.value;
         
-        districtSelect.innerHTML = '<option value="">-- Chọn Quận/Huyện --</option>';
-        wardSelect.innerHTML = '<option value="">-- Chọn Phường/Xã --</option>';
+        districtSelect.innerHTML = `<option value="">${phDistrict}</option>`;
+        wardSelect.innerHTML = `<option value="">${phWard}</option>`;
         districtSelect.disabled = !province;
         wardSelect.disabled = true;
         if (locationIdInput) {
@@ -41,7 +45,7 @@ function initCascadingLocation() {
         const province = provinceSelect.value;
         const district = this.value;
         
-        wardSelect.innerHTML = '<option value="">-- Chọn Phường/Xã --</option>';
+        wardSelect.innerHTML = `<option value="">${phWard}</option>`;
         wardSelect.disabled = !district;
         if (locationIdInput) {
             locationIdInput.value = '';
@@ -66,7 +70,7 @@ function initCascadingLocation() {
                 return res.json();
             })
             .then(data => {
-                provinceSelect.innerHTML = '<option value="">-- Chọn Tỉnh/Thành phố --</option>';
+                provinceSelect.innerHTML = `<option value="">${phProvince}</option>`;
                 
                 data.forEach(item => {
                     const option = document.createElement('option');
@@ -92,7 +96,7 @@ function initCascadingLocation() {
                 return res.json();
             })
             .then(data => {
-                districtSelect.innerHTML = '<option value="">-- Chọn Quận/Huyện --</option>';
+                districtSelect.innerHTML = `<option value="">${phDistrict}</option>`;
                 
                 data.forEach(item => {
                     const option = document.createElement('option');
@@ -119,7 +123,7 @@ function initCascadingLocation() {
                 return res.json();
             })
             .then(data => {
-                wardSelect.innerHTML = '<option value="">-- Chọn Phường/Xã --</option>';
+                wardSelect.innerHTML = `<option value="">${phWard}</option>`;
                 
                 data.forEach(item => {
                     const option = document.createElement('option');

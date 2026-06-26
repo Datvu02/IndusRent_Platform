@@ -27,6 +27,26 @@
     margin: 20px 0;
     position: relative;
 }
+.news-content img,
+.news-content figure.image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin: 12px 0;
+}
+.news-content figure.image {
+    margin: 16px 0;
+}
+.news-content figure.image.image-style-side {
+    float: right;
+    max-width: 50%;
+    margin-left: 16px;
+}
+.news-content::after {
+    content: '';
+    display: table;
+    clear: both;
+}
 .news-swiper {
     border-radius: 8px;
     overflow: hidden;

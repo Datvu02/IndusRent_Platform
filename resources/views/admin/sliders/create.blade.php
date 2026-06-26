@@ -23,34 +23,16 @@
         <div style="margin-bottom:16px;">
             <label style="display:block;font-weight:bold;margin-bottom:6px;">Tiêu đề (Tiếng Việt) <span style="color:red;">*</span></label>
             <input type="text" name="title" value="{{ old('title') }}" required class="txtbox100" style="width:100%;max-width:600px;padding:8px;">
+            @include('admin.partials.auto-translate-note')
             @error('title')
                 <div style="color:red;font-size:12px;margin-top:4px;">{{ $message }}</div>
             @enderror
         </div>
 
         <div style="margin-bottom:16px;">
-            <label style="display:block;font-weight:bold;margin-bottom:6px;">Mô tả (Tiếng Việt)</label>
+            <label style="display:block;font-weight:bold;margin-bottom:6px;">Mô tả</label>
             <textarea name="description" rows="3" class="form-control" style="width:100%;max-width:600px;">{{ old('description') }}</textarea>
-        </div>
-
-        <div style="margin-bottom:16px;">
-            <label style="display:block;font-weight:bold;margin-bottom:6px;">Tiêu đề (English)</label>
-            <input type="text" name="title_en" value="{{ old('title_en') }}" class="txtbox100" style="width:100%;max-width:600px;padding:8px;">
-        </div>
-
-        <div style="margin-bottom:16px;">
-            <label style="display:block;font-weight:bold;margin-bottom:6px;">Mô tả (English)</label>
-            <textarea name="description_en" rows="3" class="form-control" style="width:100%;max-width:600px;">{{ old('description_en') }}</textarea>
-        </div>
-
-        <div style="margin-bottom:16px;">
-            <label style="display:block;font-weight:bold;margin-bottom:6px;">Tiêu đề (中文)</label>
-            <input type="text" name="title_zh" value="{{ old('title_zh') }}" class="txtbox100" style="width:100%;max-width:600px;padding:8px;">
-        </div>
-
-        <div style="margin-bottom:16px;">
-            <label style="display:block;font-weight:bold;margin-bottom:6px;">Mô tả (中文)</label>
-            <textarea name="description_zh" rows="3" class="form-control" style="width:100%;max-width:600px;">{{ old('description_zh') }}</textarea>
+            @include('admin.partials.auto-translate-note')
         </div>
 
         <div style="margin-bottom:16px;">

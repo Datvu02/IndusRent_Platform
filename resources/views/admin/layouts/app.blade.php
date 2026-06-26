@@ -3,8 +3,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>@yield('title', 'Admin') - Cho thuê kho - Rich Hưng Thịnh</title>
-    <meta name="description" content="Cho thuê kho, xưởng"/>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>@yield('title', 'Admin') - IndusRent</title>
     <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
     <link rel="stylesheet" href="{{ asset('css/admin-filter.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -26,45 +26,55 @@
         </main>
     </div>
 
-    <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
-    <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/translations/vi.js"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/ckeditor.js"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/translations/vi.js"></script>
     <script>
-        class Base64UploadAdapter {
+        class EditorUploadAdapter {
             constructor(loader) {
                 this.loader = loader;
             }
-            
+
             upload() {
                 return this.loader.file.then(file => new Promise((resolve, reject) => {
-                    const reader = new FileReader();
-                    reader.onload = function() {
-                        resolve({ default: reader.result });
-                    };
-                    reader.onerror = function(error) {
-                        reject(error);
-                    };
-                    reader.readAsDataURL(file);
+                    const data = new FormData();
+                    data.append('upload', file);
+
+                    fetch(@json(route('admin.editor.upload-image')), {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                            'Accept': 'application/json',
+                        },
+                        body: data,
+                        credentials: 'same-origin',
+                    })
+                        .then(response => response.json().then(body => ({ ok: response.ok, body })))
+                        .then(({ ok, body }) => {
+                            if (!ok || !body.url) {
+                                const msg = body.errors?.upload?.[0] || body.message || 'Không thể tải ảnh lên.';
+                                reject(msg);
+                                return;
+                            }
+                            resolve({ default: body.url });
+                        })
+                        .catch(() => reject('Không thể tải ảnh lên.'));
                 }));
             }
-            
-            abort() {
-                // Abort upload
-            }
+
+            abort() {}
         }
-        
-        function Base64UploadAdapterPlugin(editor) {
-            editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
-                return new Base64UploadAdapter(loader);
-            };
+
+        function EditorUploadAdapterPlugin(editor) {
+            editor.plugins.get('FileRepository').createUploadAdapter = (loader) => new EditorUploadAdapter(loader);
         }
-        
+
         document.addEventListener('DOMContentLoaded', function() {
             const textareas = document.querySelectorAll('textarea.tinymce-editor');
-            
+
             textareas.forEach(function(textarea) {
                 ClassicEditor
                     .create(textarea, {
-                        extraPlugins: [Base64UploadAdapterPlugin],
+                        extraPlugins: [EditorUploadAdapterPlugin],
                         toolbar: {
                             items: [
                                 'undo', 'redo',

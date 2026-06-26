@@ -47,15 +47,15 @@ class ContactController extends Controller
             'txtcValue08' => 'nullable|string|max:5000',
             'captcha' => 'required|string',
         ], [
-            'txtcValue01.required' => 'Vui lòng nhập họ và tên.',
-            'captcha.required' => 'Vui lòng nhập mã bảo vệ.',
+            'txtcValue01.required' => __('validation.name_required'),
+            'captcha.required' => __('validation.captcha_required'),
         ]);
         
         $sessionCaptcha = session('captcha_code');
         if (!$sessionCaptcha || strtoupper($validated['captcha']) !== strtoupper($sessionCaptcha)) {
             return redirect()->back()
                 ->withInput()
-                ->withErrors(['captcha' => 'Mã bảo vệ không đúng. Vui lòng thử lại.']);
+                ->withErrors(['captcha' => __('validation.captcha_invalid')]);
         }
 
         Inquiry::create([
@@ -69,7 +69,7 @@ class ContactController extends Controller
             'message' => $validated['txtcValue08'] ?? '',
         ]);
 
-        return redirect()->route('lien-he')->with('message', 'Cảm ơn bạn. Chúng tôi sẽ liên hệ sớm.');
+        return redirect()->route('lien-he')->with('message', __('validation.contact_success'));
     }
 
     public function showRequestForm(): View
@@ -86,10 +86,10 @@ class ContactController extends Controller
             'txtcValue06' => 'required|email',
             'txtcValue08' => 'required|string|max:5000',
         ], [
-            'txtcValue01.required' => 'Vui lòng nhập họ và tên.',
-            'txtcValue05.required' => 'Vui lòng nhập điện thoại.',
-            'txtcValue06.required' => 'Vui lòng nhập email.',
-            'txtcValue08.required' => 'Vui lòng nhập nội dung yêu cầu.',
+            'txtcValue01.required' => __('validation.name_required'),
+            'txtcValue05.required' => __('validation.phone_required'),
+            'txtcValue06.required' => __('validation.email_required'),
+            'txtcValue08.required' => __('validation.content_required'),
         ]);
 
         Inquiry::create([
@@ -101,6 +101,6 @@ class ContactController extends Controller
             'message' => $validated['txtcValue08'],
         ]);
 
-        return redirect()->back()->with('message', 'Đã gửi yêu cầu. Chúng tôi sẽ xử lý sớm.');
+        return redirect()->back()->with('message', __('validation.request_success'));
     }
 }

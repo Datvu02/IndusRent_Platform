@@ -26,6 +26,7 @@
             <div style="margin-bottom:16px;">
                 <label style="display:block;font-weight:bold;margin-bottom:6px;">Tiêu đề <span style="color:red;">*</span></label>
                 <input type="text" name="title" value="{{ old('title') }}" class="txtbox100" style="width:100%;max-width:600px;padding:8px;" required>
+                @include('admin.partials.auto-translate-note')
             </div>
             <div style="margin-bottom:16px;">
                 <label style="display:block;font-weight:bold;margin-bottom:6px;">Slug (để trống sẽ tự tạo từ tiêu đề)</label>
@@ -38,32 +39,10 @@
                 <input type="file" name="featured_image" accept="image/*" class="form-control" style="max-width:600px;">
                 <small style="color:#666;">Định dạng: JPG, PNG, GIF, WebP. Tối đa 2MB</small>
             </div>
-            
             <div style="margin-bottom:16px;">
-                <label style="display:block;font-weight:bold;margin-bottom:6px;">
-                    <i class="fas fa-images"></i> Thư viện ảnh (Gallery)
-                </label>
-                <input type="file" name="gallery[]" accept="image/*" multiple class="form-control" style="max-width:600px;">
-            </div>
-            <div style="margin-bottom:16px;">
-                <label style="display:block;font-weight:bold;margin-bottom:6px;">Nội dung (Tiếng Việt)</label>
+                <label style="display:block;font-weight:bold;margin-bottom:6px;">Nội dung</label>
                 <textarea name="content" class="tinymce-editor">{{ old('content') }}</textarea>
-            </div>
-            <div style="margin-bottom:16px;">
-                <label style="display:block;font-weight:bold;margin-bottom:6px;">Tiêu đề (Tiếng Anh) – tùy chọn</label>
-                <input type="text" name="title_en" value="{{ old('title_en') }}" class="txtbox100" style="width:100%;max-width:600px;padding:8px;">
-            </div>
-            <div style="margin-bottom:16px;">
-                <label style="display:block;font-weight:bold;margin-bottom:6px;">Nội dung (Tiếng Anh) – tùy chọn</label>
-                <textarea name="content_en" class="tinymce-editor">{{ old('content_en') }}</textarea>
-            </div>
-            <div style="margin-bottom:16px;">
-                <label style="display:block;font-weight:bold;margin-bottom:6px;">Tiêu đề (中文) – tùy chọn</label>
-                <input type="text" name="title_zh" value="{{ old('title_zh') }}" class="txtbox100" style="width:100%;max-width:600px;padding:8px;">
-            </div>
-            <div style="margin-bottom:16px;">
-                <label style="display:block;font-weight:bold;margin-bottom:6px;">Nội dung (中文) – tùy chọn</label>
-                <textarea name="content_zh" class="tinymce-editor">{{ old('content_zh') }}</textarea>
+                @include('admin.partials.auto-translate-note')
             </div>
             <div>
                 <button type="submit" class="admin-btn admin-btn-primary">Lưu tin</button>
