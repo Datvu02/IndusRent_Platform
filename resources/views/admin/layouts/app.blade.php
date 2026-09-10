@@ -136,6 +136,19 @@
     <script src="{{ asset('js/admin-image-preview.js') }}"></script>
     <script src="{{ asset('js/cascading-location.js') }}"></script>
     <script src="{{ asset('js/admin-filter.js') }}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('form').forEach(function (form) {
+                form.addEventListener('submit', function () {
+                    const btn = form.querySelector('[type="submit"]');
+                    if (btn) {
+                        btn.disabled = true;
+                        btn.textContent = 'Đang lưu...';
+                    }
+                });
+            });
+        });
+    </script>
     @stack('scripts')
 </body>
 </html>

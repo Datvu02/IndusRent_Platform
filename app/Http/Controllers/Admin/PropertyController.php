@@ -102,9 +102,14 @@ class PropertyController extends Controller
             "main_image.max" => "Ảnh không được vượt quá 2MB.",
         ]);
 
-        if (empty($validated["slug"])) {
-            $validated["slug"] = Str::slug($validated["title"]);
+        $baseSlug = empty($validated["slug"]) ? Str::slug($validated["title"]) : $validated["slug"];
+        $slug = $baseSlug;
+        $i = 1;
+        while (Property::where('slug', $slug)->exists()) {
+            $slug = $baseSlug . '-' . $i++;
         }
+        $validated["slug"] = $slug;
+
         $validated["is_published"] = $request->boolean("is_published");
         $validated["is_featured"] = $request->boolean("is_featured");
 

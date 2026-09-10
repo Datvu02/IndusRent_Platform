@@ -58,9 +58,13 @@ class NewsController extends Controller
             "featured_image.max" => "Ảnh không được vượt quá 2MB.",
         ]);
 
-        if (empty($validated["slug"])) {
-            $validated["slug"] = Str::slug($validated["title"]);
+        $baseSlug = empty($validated["slug"]) ? Str::slug($validated["title"]) : $validated["slug"];
+        $slug = $baseSlug;
+        $i = 1;
+        while (News::where('slug', $slug)->exists()) {
+            $slug = $baseSlug . '-' . $i++;
         }
+        $validated["slug"] = $slug;
 
         $validated = $this->applyAutoTranslations($validated, [
             'title' => 'line',
