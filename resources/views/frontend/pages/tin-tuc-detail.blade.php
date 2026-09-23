@@ -1,6 +1,12 @@
 @extends('frontend.layouts.app')
 
-@section('title', $article->title_translated)
+@section('title', $article->title_translated . ' | Rich Hưng Thịnh')
+
+@section('meta_description', \Illuminate\Support\Str::limit(
+    trim(strip_tags($article->content_translated ?? $article->content)),
+    155,
+    '...'
+))
 
 @push('styles')
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">

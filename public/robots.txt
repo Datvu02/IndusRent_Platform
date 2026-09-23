@@ -1,3 +1,3 @@
 User-agent: *
 Disallow:
-Sitemap: http://richhungthinh.vn/sitemap.xml
+Sitemap: https://richhungthinh.vn/sitemap.xml

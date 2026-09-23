@@ -4,7 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@yield('title', __('common.tagline'))</title>
-    <meta name="description" content="{{ __('common.tagline') }}">
+    <meta name="description" content="@yield('meta_description', __('common.tagline'))">
+    <link rel="canonical" href="@yield('canonical_url', url()->current())">
     <link rel="stylesheet" href="{{ asset('css/clone-chothuexuong.css') }}">
     <link rel="stylesheet" href="{{ asset('css/theme-golden.css') }}">
     <link rel="stylesheet" href="{{ asset('css/logo-fix.css') }}">

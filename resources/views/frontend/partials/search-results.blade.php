@@ -5,7 +5,7 @@
                 <div class="navibox"><a href="{{ url('/') }}">{{ __('menu.home') }}</a> &nbsp;/&nbsp; <a href="{{ $listingUrl }}" title="{{ $listingTitle }}">{{ $listingTitle }}</a></div>
             </div>
             <div class="lasted">
-                <span>{{ $listingTitle }}</span>
+                <h1>{{ $seoHeading ?? $listingTitle }}</h1>
                 @if(isset($pagination))
                     <span style="font-size:13px;color:#666;font-weight:normal;margin-left:10px;">({{ __('common.results_count', ['count' => $pagination->total()]) }})</span>
                 @endif
