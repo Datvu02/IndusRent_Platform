@@ -56,14 +56,14 @@
                             
                             <a href="{{ url('/tin-tuc/' . $article->slug) }}" 
                                style="color:#D4AF37;font-weight:500;">
-                                {{ __('common.view_detail') ?? 'Xem chi tiết' }} →
+                                {{ __('common.view_detail') }} →
                             </a>
                         </div>
                     </div>
                 </div>
                 @empty
                 <p style="color:#666;padding:40px 0;text-align:center;">
-                    {{ __('common.no_items') ?? 'Chưa có tin tức nào' }}
+                    {{ __('common.no_news') }}
                 </p>
                 @endforelse
             </div>

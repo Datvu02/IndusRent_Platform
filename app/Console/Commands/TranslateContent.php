@@ -73,21 +73,13 @@ class TranslateContent extends Command
             }
 
             if (empty($property->description_en) && !empty($property->description)) {
-                $plainText = strip_tags($property->description);
-                if (strlen($plainText) > 5000) {
-                    $plainText = substr($plainText, 0, 5000);
-                }
-                $property->description_en = TranslationService::translate($plainText, 'en');
+                $property->description_en = TranslationService::translateHtml($property->description, 'en');
                 $updated = true;
-                usleep(200000);
+                usleep((int) config('translation.lang_switch_delay_us', 500000));
             }
 
             if (empty($property->description_zh) && !empty($property->description)) {
-                $plainText = strip_tags($property->description);
-                if (strlen($plainText) > 5000) {
-                    $plainText = substr($plainText, 0, 5000);
-                }
-                $property->description_zh = TranslationService::translate($plainText, 'zh');
+                $property->description_zh = TranslationService::translateHtml($property->description, 'zh');
                 $updated = true;
                 usleep(200000);
             }
@@ -141,21 +133,13 @@ class TranslateContent extends Command
             }
 
             if (empty($item->content_en) && !empty($item->content)) {
-                $plainText = strip_tags($item->content);
-                if (strlen($plainText) > 5000) {
-                    $plainText = substr($plainText, 0, 5000);
-                }
-                $item->content_en = TranslationService::translate($plainText, 'en');
+                $item->content_en = TranslationService::translateHtml($item->content, 'en');
                 $updated = true;
-                usleep(200000);
+                usleep((int) config('translation.lang_switch_delay_us', 500000));
             }
 
             if (empty($item->content_zh) && !empty($item->content)) {
-                $plainText = strip_tags($item->content);
-                if (strlen($plainText) > 5000) {
-                    $plainText = substr($plainText, 0, 5000);
-                }
-                $item->content_zh = TranslationService::translate($plainText, 'zh');
+                $item->content_zh = TranslationService::translateHtml($item->content, 'zh');
                 $updated = true;
                 usleep(200000);
             }

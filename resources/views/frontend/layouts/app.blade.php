@@ -24,6 +24,13 @@
 
     @include('frontend.partials.footer')
 
+    <script>
+        window.locationI18n = {
+            province: @json(__('forms.select_province_placeholder')),
+            district: @json(__('forms.select_district_placeholder')),
+            ward: @json(__('forms.select_ward_placeholder')),
+        };
+    </script>
     <script src="{{ asset('js/cascading-location.js') }}"></script>
     <script src="{{ asset('js/search-ajax.js') }}"></script>
     @stack('scripts')

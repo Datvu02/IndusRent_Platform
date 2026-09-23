@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\Admin\EditorImageController;
 use App\Http\Controllers\Admin\InquiryController;
 use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\PropertyController;
@@ -174,4 +175,6 @@ Route::prefix('admin')->name('admin.')->middleware('admin.auth')->group(function
     Route::get('/sliders/{slider}/sua', [SliderController::class, 'edit'])->name('sliders.edit');
     Route::put('/sliders/{slider}', [SliderController::class, 'update'])->name('sliders.update');
     Route::delete('/sliders/{slider}', [SliderController::class, 'destroy'])->name('sliders.destroy');
+
+    Route::post('/editor/upload-image', [EditorImageController::class, 'upload'])->name('editor.upload-image');
 });

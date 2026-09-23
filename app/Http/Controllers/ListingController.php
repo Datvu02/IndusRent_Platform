@@ -89,6 +89,17 @@ class ListingController extends Controller
         if ($request->filled('city')) {
             $query->where('location_id', $request->input('city'));
         }
+        if ($request->filled('price')) {
+            $parts = explode('^', (string) $request->input('price'));
+            if (count($parts) === 2) {
+                if ((float) $parts[0] > 0) {
+                    $query->where('price', '>=', (float) $parts[0]);
+                }
+                if ((float) $parts[1] > 0) {
+                    $query->where('price', '<=', (float) $parts[1]);
+                }
+            }
+        }
 
         $properties = $query->paginate(10)->withQueryString();
 

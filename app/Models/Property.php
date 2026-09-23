@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Support\Currency;
 use App\Traits\HasTranslations;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -72,12 +73,6 @@ class Property extends Model
 
     public function getFormattedPriceAttribute(): string
     {
-        if ($this->price === null) {
-            return __('common.contact_price');
-        }
-        if ($this->price >= 1000000) {
-            return number_format($this->price / 1000000, 1, ',', '.') . ' triệu';
-        }
-        return number_format($this->price, 0, ',', '.') . ' VNĐ';
+        return Currency::format($this->price);
     }
 }

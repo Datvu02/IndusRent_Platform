@@ -59,11 +59,11 @@
             </div>
             <div class="admin-filter-row">
                 <div class="admin-filter-group">
-                    <label class="admin-filter-label">Giá (VNĐ)</label>
+                    <label class="admin-filter-label">{{ __('common.price_usd') }}</label>
                     <div class="admin-filter-range">
-                        <input type="number" name="price_min" class="admin-filter-input" placeholder="Từ" value="{{ request('price_min') }}" step="1000000">
+                        <input type="number" name="price_min" class="admin-filter-input" placeholder="Từ" value="{{ request('price_min') }}" step="100" min="0">
                         <span class="admin-filter-range-separator">—</span>
-                        <input type="number" name="price_max" class="admin-filter-input" placeholder="Đến" value="{{ request('price_max') }}" step="1000000">
+                        <input type="number" name="price_max" class="admin-filter-input" placeholder="Đến" value="{{ request('price_max') }}" step="100" min="0">
                     </div>
                 </div>
                 <div class="admin-filter-group">

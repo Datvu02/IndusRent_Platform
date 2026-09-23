@@ -25,18 +25,18 @@
         <div>
             <select name="area">
                 <option value="0^0" {{ request('area') ? '' : 'selected' }}>{{ __('common.select_area') }}</option>
-                <option value="100^500" {{ request('area') == '100^500' ? 'selected' : '' }}>100 - 500 m²</option>
-                <option value="500^1000" {{ request('area') == '500^1000' ? 'selected' : '' }}>500 - 1.000 m²</option>
-                <option value="1000^2000" {{ request('area') == '1000^2000' ? 'selected' : '' }}>1.000 - 2.000 m²</option>
-                <option value="2000^5000" {{ request('area') == '2000^5000' ? 'selected' : '' }}>2.000 - 5.000 m²</option>
+                <option value="100^500" {{ request('area') == '100^500' ? 'selected' : '' }}>{{ __('common.area_range_100_500') }}</option>
+                <option value="500^1000" {{ request('area') == '500^1000' ? 'selected' : '' }}>{{ __('common.area_range_500_1000') }}</option>
+                <option value="1000^2000" {{ request('area') == '1000^2000' ? 'selected' : '' }}>{{ __('common.area_range_1000_2000') }}</option>
+                <option value="2000^5000" {{ request('area') == '2000^5000' ? 'selected' : '' }}>{{ __('common.area_range_2000_5000') }}</option>
             </select>
         </div>
         <div>
             <select name="price">
-                <option value="0^0" {{ request('price') ? '' : 'selected' }}>Chọn khoảng giá</option>
-                <option value="10000^30000" {{ request('price') == '10000^30000' ? 'selected' : '' }}>10.000 - 30.000 VNĐ</option>
-                <option value="30000^50000" {{ request('price') == '30000^50000' ? 'selected' : '' }}>30.000 - 50.000 VNĐ</option>
-                <option value="50000^70000" {{ request('price') == '50000^70000' ? 'selected' : '' }}>50.000 - 70.000 VNĐ</option>
+                <option value="0^0" {{ request('price') ? '' : 'selected' }}>{{ __('common.select_price_range') }}</option>
+                <option value="1000^3000" {{ request('price') == '1000^3000' ? 'selected' : '' }}>{{ __('common.price_range_1') }}</option>
+                <option value="3000^5000" {{ request('price') == '3000^5000' ? 'selected' : '' }}>{{ __('common.price_range_2') }}</option>
+                <option value="5000^7000" {{ request('price') == '5000^7000' ? 'selected' : '' }}>{{ __('common.price_range_3') }}</option>
             </select>
         </div>
         <div><input type="text" name="skey" placeholder="{{ __('common.search_placeholder') }}" value="{{ request('skey') }}"></div>

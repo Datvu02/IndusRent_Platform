@@ -27,6 +27,7 @@
             <div style="margin-bottom:16px;">
                 <label style="display:block;font-weight:bold;margin-bottom:6px;">Tiêu đề <span style="color:red;">*</span></label>
                 <input type="text" name="title" value="{{ old('title', $property->title) }}" style="width:100%;max-width:600px;padding:8px;" required>
+                @include('admin.partials.auto-translate-note')
             </div>
             <div style="margin-bottom:16px;">
                 <label style="display:block;font-weight:bold;margin-bottom:6px;">Slug</label>
@@ -86,8 +87,8 @@
             @include('admin.partials.property-map-picker', ['lat' => old('latitude', $property->latitude), 'lng' => old('longitude', $property->longitude)])
             
             <div style="margin-bottom:16px;">
-                <label style="display:block;font-weight:bold;margin-bottom:6px;">Giá (VNĐ)</label>
-                <input type="number" name="price" value="{{ old('price', $property->price) }}" step="1000" min="0" style="width:100%;max-width:300px;padding:8px;">
+                <label style="display:block;font-weight:bold;margin-bottom:6px;">{{ __('common.price_usd') }}</label>
+                <input type="number" name="price" value="{{ old('price', $property->price) }}" step="0.01" min="0" style="width:100%;max-width:300px;padding:8px;" placeholder="{{ __('common.currency_symbol') }}">
             </div>
             <div style="margin-bottom:16px;">
                 <label style="display:block;font-weight:bold;margin-bottom:6px;">Diện tích (m²)</label>
@@ -95,43 +96,23 @@
             </div>
             
             <div style="margin-bottom:16px;padding:16px;background:#f8f9fa;border-radius:8px;">
-                <div style="margin-bottom:16px;">
-                    <label style="display:block;font-weight:bold;margin-bottom:6px;">
-                        <i class="fas fa-image"></i> Ảnh đại diện
-                    </label>
-                    @if($property->main_image)
-                        <div style="margin-bottom:10px;">
-                            <img src="{{ asset('storage/' . $property->main_image) }}" alt="Ảnh chính" style="max-width:300px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.1);">
-                            <p style="margin-top:8px;color:#666;font-size:14px;">Ảnh hiện tại</p>
-                        </div>
-                    @endif
-                    <input type="file" name="main_image" accept="image/*" class="form-control" style="max-width:600px;">
-                    <small style="color:#666;">JPG, PNG, WebP. Tối đa 2MB. Để trống nếu không đổi.</small>
-                </div>
-                
-                <div style="margin-bottom:16px;">
-                    <label style="display:block;font-weight:bold;margin-bottom:6px;">
-                        <i class="fas fa-images"></i> Ảnh thư viện
-                    </label>
-                    @if($property->gallery && count($property->gallery) > 0)
-                        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px;">
-                            @foreach($property->gallery as $img)
-                                <img src="{{ asset('storage/' . $img) }}" alt="Gallery" style="max-width:150px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.1);">
-                            @endforeach
-                        </div>
-                        <p style="color:#666;font-size:14px;margin-bottom:10px;">{{ count($property->gallery) }} ảnh hiện tại</p>
-                    @endif
-                    <input type="file" name="gallery[]" accept="image/*" multiple class="form-control" style="max-width:600px;">
-                    <small style="color:#666;">Chọn thêm ảnh mới (ảnh cũ sẽ được giữ lại)</small>
-                </div>
+                <label style="display:block;font-weight:bold;margin-bottom:6px;">
+                    <i class="fas fa-image"></i> Ảnh đại diện
+                </label>
+                @if($property->main_image)
+                    <div style="margin-bottom:10px;">
+                        <img src="{{ asset('storage/' . $property->main_image) }}" alt="Ảnh chính" style="max-width:300px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.1);">
+                        <p style="margin-top:8px;color:#666;font-size:14px;">Ảnh hiện tại</p>
+                    </div>
+                @endif
+                <input type="file" name="main_image" accept="image/*" class="form-control" style="max-width:600px;">
+                <small style="color:#666;">JPG, PNG, WebP. Tối đa 2MB. Để trống nếu không đổi.</small>
             </div>
             
             <div style="margin-bottom:16px;">
                 <label style="display:block;font-weight:bold;margin-bottom:6px;">Mô tả</label>
                 <textarea name="description" class="tinymce-editor">{{ old('description', $property->description) }}</textarea>
-                <small style="color:#28a745;display:block;margin-top:6px;">
-                    <i class="fas fa-language"></i> Hệ thống sẽ tự động dịch sang English và 中文 khi lưu.
-                </small>
+                @include('admin.partials.auto-translate-note')
             </div>
             <div style="margin-bottom:16px;">
                 <label style="margin-right:20px;"><input type="checkbox" name="is_published" value="1" {{ old('is_published', $property->is_published) ? 'checked' : '' }}> Đăng lên trang chủ</label>

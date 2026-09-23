@@ -201,12 +201,12 @@ document.addEventListener('DOMContentLoaded', function() {
                          data-link="{{ $slide->link }}">
                         <div class="slider-overlay">
                             <div class="slider-content">
-                                <h2 class="slider-title">{{ $slide->title_translated }}</h2>
-                                @if($slide->description_translated)
-                                    <p class="slider-desc">{{ $slide->description_translated }}</p>
+                                <h2 class="slider-title">{{ $slide->getTranslated('title') ?: $slide->title }}</h2>
+                                @if($slide->getTranslated('description') ?: $slide->description)
+                                    <p class="slider-desc">{{ $slide->getTranslated('description') ?: $slide->description }}</p>
                                 @endif
                                 @if($slide->link)
-                                    <a href="{{ $slide->link }}" class="slider-btn">{{ __('common.learn_more') ?? 'Tìm hiểu thêm' }}</a>
+                                    <a href="{{ $slide->link }}" class="slider-btn">{{ __('common.learn_more') }}</a>
                                 @endif
                             </div>
                         </div>
@@ -226,7 +226,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     @endif
                 @else
                     <div style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; font-size:16px;background:#e8e8e8;color:#666;">
-                        {{ __('common.slider_placeholder') ?? 'Slider quảng cáo' }}
+                        {{ __('common.slider_placeholder') }}
                     </div>
                 @endif
             </div>
@@ -287,10 +287,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 <div>
                     <select name="area">
                         <option value="0" selected>{{ __('common.select_area') }}</option>
-                        <option value="100^500">100 - 500 m²</option>
-                        <option value="500^1000">500 - 1.000 m²</option>
-                        <option value="1000^2000">1.000 - 2.000 m²</option>
-                        <option value="2000^5000">2.000 - 5.000 m²</option>
+                        <option value="100^500">{{ __('common.area_range_100_500') }}</option>
+                        <option value="500^1000">{{ __('common.area_range_500_1000') }}</option>
+                        <option value="1000^2000">{{ __('common.area_range_1000_2000') }}</option>
+                        <option value="2000^5000">{{ __('common.area_range_2000_5000') }}</option>
                     </select>
                 </div>
                 <div>

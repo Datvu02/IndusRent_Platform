@@ -1,20 +1,20 @@
 @extends('frontend.layouts.app')
 
-@section('title', 'Dịch vụ')
+@section('title', __('menu.services'))
 
 @section('content')
 <div id="content" class="content">
     <div class="listbox">
         <div class="left">
             <div id="navi">
-                <div class="navibox"><a href="{{ url('/') }}">Trang chủ</a> &nbsp;/&nbsp; <a href="{{ url('/dich-vu') }}" title="Dịch vụ">Dịch vụ</a></div>
+                <div class="navibox"><a href="{{ url('/') }}">{{ __('menu.home') }}</a> &nbsp;/&nbsp; <a href="{{ url('/dich-vu') }}" title="{{ __('menu.services') }}">{{ __('menu.services') }}</a></div>
             </div>
             <div class="pageintro">
-                <p><strong>Dịch vụ của chúng tôi</strong></p>
-                <p>– Tư vấn, giới thiệu cho thuê – bán kho, nhà xưởng, đất công nghiệp tại các tỉnh thành khu vực phía Bắc.</p>
-                <p>– Nhận ký gửi, rao bán, cho thuê giúp khách hàng có nhu cầu quảng cáo bất động sản.</p>
-                <p>– Làm thủ tục cấp phép đầu tư cho doanh nghiệp trong và ngoài nước nhanh chóng, giá rẻ.</p>
-                <p>– Cam kết không thu bất cứ khoản chi phí nào từ khách hàng tìm thuê/mua.</p>
+                <p><strong>{{ __('pages.services_title') }}</strong></p>
+                <p>– {{ __('pages.services_s1') }}</p>
+                <p>– {{ __('pages.services_s2') }}</p>
+                <p>– {{ __('pages.services_s3') }}</p>
+                <p>– {{ __('pages.services_s4') }}</p>
             </div>
         </div>
         @include('frontend.partials.sidebar-inner')

@@ -103,7 +103,7 @@ document.addEventListener('DOMContentLoaded', function() {
             <div id="navi">
                 <div class="navibox">
                     <a href="{{ url('/') }}">{{ __('menu.home') }}</a> &nbsp;/&nbsp;
-                    <a href="{{ url('/cho-thue-nha-xuong') }}">{{ $property->type->name_translated ?? 'BĐS' }}</a> &nbsp;/&nbsp;
+                    <a href="{{ url('/cho-thue-nha-xuong') }}">{{ $property->type->name_translated ?? __('common.property_type_default') }}</a> &nbsp;/&nbsp;
                     <span>{{ Str::limit($property->title_translated, 50) }}</span>
                 </div>
             </div>
@@ -131,7 +131,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 @if(!empty($property->gallery) && is_array($property->gallery))
                     <div style="margin:15px 0;">
-                        <h3 style="font-size:16px;margin-bottom:10px;color:#263548;">{{ __('common.gallery') ?? 'Thư viện ảnh' }}</h3>
+                        <h3 style="font-size:16px;margin-bottom:10px;color:#263548;">{{ __('common.gallery') }}</h3>
                         <div class="property-listing-gallery">
                             @foreach($property->gallery as $image)
                                 <div class="property-listing-gallery-item">
