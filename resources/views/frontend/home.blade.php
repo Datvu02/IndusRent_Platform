@@ -1,6 +1,8 @@
 @extends('frontend.layouts.app')
 
-@section('title', __('common.tagline'))
+@section('title', __('Cho thuê nhà xưởng, kho xưởng, mặt bằng giá rẻ | Rich Hưng Thịnh'))
+
+@section('meta_description', 'Rich Hưng Thịnh cung cấp thông tin nhà xưởng, kho xưởng và mặt bằng cho thuê, đáp ứng nhu cầu sản xuất, kinh doanh và lưu trữ.')
 
 @push('styles')
 <style>
@@ -115,6 +117,15 @@
 .slider-container .slider-item {
     min-height: 320px;
 }
+
+.home-seo-title {
+    margin: 0;
+    padding: 20px 15px;
+    text-align: center;
+    font-size: 28px;
+    line-height: 1.3;
+    font-weight: 700;
+}
 </style>
 @endpush
 
@@ -190,6 +201,10 @@ document.addEventListener('DOMContentLoaded', function() {
 @endpush
 
 @section('content')
+    <h1 class="home-seo-title">
+        Cho thuê nhà xưởng, kho xưởng và mặt bằng
+    </h1>
+
     {{-- Slider → Tin tức nổi bật → Form tìm kiếm --}}
     <div id="homeads">
         <div class="homeads-slider-row">

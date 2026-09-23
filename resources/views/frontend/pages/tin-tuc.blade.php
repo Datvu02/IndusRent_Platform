@@ -1,6 +1,8 @@
 @extends('frontend.layouts.app')
 
-@section('title', __('menu.news'))
+@section('title', 'Tin tức bất động sản | Nhà xưởng, kho xưởng | Rich Hưng Thịnh')
+
+@section('meta_description', 'Tin tức và thông tin mới về nhà xưởng, kho xưởng, mặt bằng, bất động sản và các vấn đề liên quan đến sản xuất, kinh doanh.')
 
 @section('content')
 <div id="content" class="content">
@@ -14,7 +16,9 @@
             </div>
             
             <div class="lasted">
-                <span>{{ __('menu.news') }}</span>
+                <h1 style="font-size:22px;margin:15px 0;color:#263548;">
+		        Tin tức
+	        </h1>
             </div>
             
             <div class="news-list" style="margin-top:20px;">

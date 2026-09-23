@@ -1,6 +1,7 @@
 @extends('frontend.layouts.app')
 
-@section('title', $property->title_translated)
+@section('title', $seoTitle)
+@section('meta_description', $seoDescription)
 
 @push('styles')
 <style>

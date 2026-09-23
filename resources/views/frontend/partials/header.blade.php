@@ -31,7 +31,7 @@
 <div id="header">
     <div class="header-2">
         <div class="left">
-            <h1>
+            <div>
                 <a href="{{ url('/') }}" title="{{ setting('site_name') ?? __('common.tagline') }}">
                     @php
                         $logoPath = setting('site_logo', 'images/default-logo.png');
@@ -43,7 +43,7 @@
                     <span class="logo-text" style="display:none; color:#fff; font-size:18px; font-weight:bold;">{{ setting('site_name') ?? 'IndusRent' }}</span>
                 </a>
                 <span>{{ setting('site_slogan') ?? __('common.tagline') }}</span>
-            </h1>
+            </div>
         </div>
         <div class="mid"></div>
         <div class="right">

@@ -1,6 +1,8 @@
 @extends('frontend.layouts.app')
 
-@section('title', __('menu.contact'))
+@section('title', 'Liên hệ Rich Hưng Thịnh | Nhà xưởng, kho xưởng và mặt bằng')
+
+@section('meta_description', 'Liên hệ Rich Hưng Thịnh để được tư vấn thông tin nhà xưởng, kho xưởng, mặt bằng và các bất động sản phù hợp nhu cầu sản xuất, kinh doanh.')
 
 @push('styles')
 <style>
@@ -49,7 +51,7 @@
             <div class="navibox"><a href="{{ url('/') }}">{{ __('menu.home') }}</a> &nbsp;/&nbsp; <span>{{ __('menu.contact') }}</span></div>
         </div>
         <div class="pageintro">
-            <h1 style="font-size:22px;margin:15px 0;color:#263548;">{{ __('menu.contact') }}</h1>
+            <h1 style="font-size:22px;margin:15px 0;color:#263548;">Liên hệ Rich Hưng Thịnh</h1>
         </div>
         @if(session('message'))
             <div style="padding:15px;background:#d4edda;border:1px solid #c3e6cb;border-radius:6px;color:#155724;margin-bottom:20px;">
