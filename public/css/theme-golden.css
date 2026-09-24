@@ -234,10 +234,10 @@ a:hover {
 
 /* Logo styling - Remove white background, make it fit nicely on dark blue */
 .logo-img {
-    max-height: 70px;
+    max-height: 110px;
     width: auto;
     background: transparent;
-    padding: 8px;
+    padding: 4px 0;
     border-radius: 8px;
     filter: drop-shadow(0 2px 8px rgba(212, 175, 55, 0.4));
     transition: all 0.3s ease;
@@ -312,6 +312,6 @@ h1, h2, h3, h4, h5, h6 {
 /* Responsive */
 @media (max-width: 768px) {
     .logo-img {
-        max-height: 60px;
+        max-height: 80px;
     }
 }
