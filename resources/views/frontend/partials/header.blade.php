@@ -42,7 +42,6 @@
                     <img src="{{ $logoUrl }}" alt="{{ setting('site_name') ?? 'Logo' }}" class="logo-img" onerror="this.style.display='none'; if(this.nextElementSibling) this.nextElementSibling.style.display='inline';">
                     <span class="logo-text" style="display:none; color:#fff; font-size:18px; font-weight:bold;">{{ setting('site_name') ?? 'IndusRent' }}</span>
                 </a>
-                <span>{{ setting('site_slogan') ?? __('common.tagline') }}</span>
             </div>
         </div>
         <div class="mid"></div>
