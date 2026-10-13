@@ -309,6 +309,29 @@ h1, h2, h3, h4, h5, h6 {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
+/* Homepage news cards: force equal 3-line titles across locales */
+.home-featured-news-card,
+.home-featured-news-card-link,
+.home-featured-news-card-title {
+    min-width: 0;
+    max-width: 100%;
+}
+.home-featured-news-card-title {
+    height: calc(22px + 1.45em * 3) !important;
+    overflow: hidden !important;
+}
+.home-featured-news-card-title-text {
+    display: -webkit-box !important;
+    -webkit-box-orient: vertical !important;
+    -webkit-line-clamp: 3 !important;
+    line-clamp: 3 !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    max-height: calc(1.45em * 3) !important;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     .logo-img {

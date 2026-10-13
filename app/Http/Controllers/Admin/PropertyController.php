@@ -94,12 +94,16 @@ class PropertyController extends Controller
             "latitude" => "nullable|numeric",
             "longitude" => "nullable|numeric",
             "main_image" => "nullable|image|mimes:jpeg,png,jpg,webp|max:2048",
+            "gallery" => "nullable|array",
+            "gallery.*" => "image|mimes:jpeg,png,jpg,webp|max:2048",
         ], [
             "title.required" => "Vui lòng nhập tiêu đề.",
             "type_id.required" => "Vui lòng chọn loại BĐS.",
             "location_id.required" => "Vui lòng chọn khu vực.",
             "main_image.image" => "File phải là ảnh.",
             "main_image.max" => "Ảnh không được vượt quá 2MB.",
+            "gallery.*.image" => "File thư viện phải là ảnh.",
+            "gallery.*.max" => "Mỗi ảnh thư viện không được vượt quá 2MB.",
         ]);
 
         $baseSlug = empty($validated["slug"]) ? Str::slug($validated["title"]) : $validated["slug"];
@@ -121,6 +125,12 @@ class PropertyController extends Controller
         if ($request->hasFile("main_image")) {
             $validated["main_image"] = $this->uploadImage($request->file("main_image"), "properties");
         }
+
+        if ($request->hasFile("gallery")) {
+            $validated["gallery"] = $this->uploadMultipleImages($request->file("gallery"), "properties/gallery");
+        }
+
+        unset($validated["gallery.*"]);
 
         Property::create($validated);
         return redirect()->route("admin.tin-dang.index")->with("message", "Đã thêm tin đăng.");
@@ -152,9 +162,15 @@ class PropertyController extends Controller
             "latitude" => "nullable|numeric",
             "longitude" => "nullable|numeric",
             "main_image" => "nullable|image|mimes:jpeg,png,jpg,webp|max:2048",
+            "gallery" => "nullable|array",
+            "gallery.*" => "image|mimes:jpeg,png,jpg,webp|max:2048",
+            "remove_gallery" => "nullable|array",
+            "remove_gallery.*" => "string",
         ], [
             "title.required" => "Vui lòng nhập tiêu đề.",
             "main_image.image" => "File phải là ảnh.",
+            "gallery.*.image" => "File thư viện phải là ảnh.",
+            "gallery.*.max" => "Mỗi ảnh thư viện không được vượt quá 2MB.",
         ]);
 
         if (empty($validated["slug"])) {
@@ -175,6 +191,26 @@ class PropertyController extends Controller
                 $tin_dang->main_image
             );
         }
+
+        $gallery = is_array($tin_dang->gallery) ? $tin_dang->gallery : [];
+        $removeGallery = $request->input('remove_gallery', []);
+        if (!empty($removeGallery) && is_array($removeGallery)) {
+            foreach ($removeGallery as $path) {
+                if (in_array($path, $gallery, true)) {
+                    $this->deleteImage($path);
+                }
+            }
+            $gallery = array_values(array_filter($gallery, fn ($path) => !in_array($path, $removeGallery, true)));
+        }
+        if ($request->hasFile("gallery")) {
+            $gallery = array_merge(
+                $gallery,
+                $this->uploadMultipleImages($request->file("gallery"), "properties/gallery")
+            );
+        }
+        $validated["gallery"] = $gallery;
+
+        unset($validated["gallery.*"], $validated["remove_gallery"], $validated["remove_gallery.*"]);
 
         $tin_dang->update($validated);
         return redirect()->route("admin.tin-dang.index")->with("message", "Đã cập nhật tin đăng.");

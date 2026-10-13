@@ -1,6 +1,7 @@
 @php
     $mapLat = $lat ?? null;
     $mapLng = $lng ?? null;
+    $hasCoords = $mapLat !== null && $mapLat !== '' && $mapLng !== null && $mapLng !== '';
 @endphp
 
 @push('styles')
@@ -99,18 +100,18 @@
 
     {{-- Hidden inputs gửi lên server --}}
     <input type="hidden" name="latitude"  id="map_latitude"
-           value="{{ $mapLat !== null && $mapLat !== '' ? $mapLat : '' }}">
+           value="{{ $hasCoords ? $mapLat : '' }}">
     <input type="hidden" name="longitude" id="map_longitude"
-           value="{{ $mapLng !== null && $mapLng !== '' ? $mapLng : '' }}">
+           value="{{ $hasCoords ? $mapLng : '' }}">
 
-    {{-- Tọa độ + minimap --}}
-    <div id="minimap_section" style="margin-top:12px;display:none;">
+    {{-- Tọa độ + minimap — luôn hiện để click ghim được ngay --}}
+    <div id="minimap_section" style="margin-top:12px;">
         <div id="coord_display"
              style="font-size:12px;color:#555;margin-bottom:6px;padding:6px 10px;background:#eef6ff;border-radius:6px;border:1px solid #bdd7f5;display:flex;justify-content:space-between;align-items:center;">
-            <span>📌 Vĩ độ: <strong id="disp_lat">—</strong> &nbsp;|&nbsp; Kinh độ: <strong id="disp_lng">—</strong></span>
-            <span style="color:#999;font-size:11px;">Click bản đồ để điều chỉnh ghim</span>
+            <span>📌 Vĩ độ: <strong id="disp_lat">{{ $hasCoords ? $mapLat : '—' }}</strong> &nbsp;|&nbsp; Kinh độ: <strong id="disp_lng">{{ $hasCoords ? $mapLng : '—' }}</strong></span>
+            <span style="color:#999;font-size:11px;">Click bản đồ để đặt ghim</span>
         </div>
-        <div id="map-tip">🖱 Click vào bản đồ để đặt ghim chính xác hơn — kéo ghim để tinh chỉnh</div>
+        <div id="map-tip">🖱 Click vào bản đồ để đặt ghim — kéo ghim để tinh chỉnh · tìm địa chỉ phía trên để định vị nhanh</div>
         <div id="property-minimap"></div>
     </div>
 </div>
@@ -119,13 +120,20 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
 <script>
 (function () {
+    var DEFAULT_LAT = 21.0285;
+    var DEFAULT_LNG = 105.8542;
+    var DEFAULT_ZOOM = 12;
+    var PIN_ZOOM = 16;
+
+    var searchUrl  = @json(url('/api/geocode/search'));
+    var reverseUrl = @json(url('/api/geocode/reverse'));
+
     var latInput    = document.getElementById('map_latitude');
     var lngInput    = document.getElementById('map_longitude');
     var addrInput   = document.getElementById('address_input');
     var dropdown    = document.getElementById('addr-dropdown');
     var clearBtn    = document.getElementById('map_clear_btn');
     var status      = document.getElementById('geocode-status');
-    var section     = document.getElementById('minimap_section');
     var dispLat     = document.getElementById('disp_lat');
     var dispLng     = document.getElementById('disp_lng');
 
@@ -134,12 +142,11 @@
     var debounceTimer = null;
     var activeIdx = -1;
 
-    /* ── Reverse geocoding ── */
     function reverseGeocode(lat, lng) {
-        var url = 'https://nominatim.openstreetmap.org/reverse?format=json&lat=' + lat + '&lon=' + lng;
+        var url = reverseUrl + '?lat=' + encodeURIComponent(lat) + '&lon=' + encodeURIComponent(lng);
         status.textContent = '⏳ Đang lấy địa chỉ...';
         status.className   = 'loading';
-        fetch(url, { headers: { 'Accept-Language': 'vi,en' } })
+        fetch(url, { headers: { 'Accept': 'application/json' } })
             .then(function (r) { return r.json(); })
             .then(function (data) {
                 if (data && data.display_name) {
@@ -157,27 +164,30 @@
             });
     }
 
-    /* ── Map init ── */
-    function initMap(lat, lng) {
-        section.style.display = 'block';
+    function initMap(lat, lng, zoom) {
+        if (typeof L === 'undefined') {
+            status.textContent = '❌ Không tải được thư viện bản đồ. Kiểm tra kết nối mạng.';
+            status.className = 'error';
+            return;
+        }
         if (!map) {
-            map = L.map('property-minimap').setView([lat, lng], 16);
+            map = L.map('property-minimap').setView([lat, lng], zoom || DEFAULT_ZOOM);
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 maxZoom: 19,
                 attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
             }).addTo(map);
 
-            // Click on map to place/move marker + reverse geocode
             map.on('click', function (e) {
                 placeMarker(e.latlng.lat, e.latlng.lng, true);
             });
         } else {
-            map.setView([lat, lng], 16);
+            map.setView([lat, lng], zoom || map.getZoom());
         }
         setTimeout(function () { map.invalidateSize(); }, 150);
     }
 
     function placeMarker(lat, lng, doReverse) {
+        if (!map) initMap(lat, lng, PIN_ZOOM);
         if (marker) {
             marker.setLatLng([lat, lng]);
         } else {
@@ -188,6 +198,7 @@
                 reverseGeocode(p.lat, p.lng);
             });
         }
+        map.setView([lat, lng], Math.max(map.getZoom(), PIN_ZOOM));
         saveCoords(lat, lng);
         if (doReverse) reverseGeocode(lat, lng);
     }
@@ -201,7 +212,6 @@
         dispLng.textContent = rLng;
     }
 
-    /* ── Dropdown helpers ── */
     function showDropdown(html) {
         dropdown.innerHTML = html;
         dropdown.style.display = 'block';
@@ -214,13 +224,13 @@
     }
 
     function buildDropdown(results) {
-        if (!results || results.length === 0) {
+        if (!results || results.length === 0 || results.error) {
             showDropdown('<div class="dd-msg">Không tìm thấy địa chỉ phù hợp</div>');
             return;
         }
         var html = '';
         results.forEach(function (r, i) {
-            var parts = r.display_name.split(', ');
+            var parts = (r.display_name || '').split(', ');
             var main  = parts.slice(0, 2).join(', ');
             var sub   = parts.slice(2).join(', ');
             html += '<div class="dd-item" data-idx="' + i + '" data-lat="' + r.lat + '" data-lon="' + r.lon + '" data-name="' + encodeURIComponent(r.display_name) + '">'
@@ -243,7 +253,7 @@
         var lon  = parseFloat(el.dataset.lon);
         var name = decodeURIComponent(el.dataset.name);
         addrInput.value = name;
-        initMap(lat, lon);
+        initMap(lat, lon, PIN_ZOOM);
         placeMarker(lat, lon, false);
         status.textContent = '✅ Đã chọn: ' + name;
         status.className   = 'success';
@@ -251,19 +261,17 @@
     }
 
     function escapeHtml(s) {
-        return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+        return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
     }
 
-    /* ── Nominatim search ── */
     function search(query) {
         if (!query.trim()) { hideDropdown(); return; }
         status.textContent = '⏳ Đang tìm...';
         status.className   = 'loading';
 
-        var url = 'https://nominatim.openstreetmap.org/search?format=json&limit=7&countrycodes=vn&q='
-                  + encodeURIComponent(query);
+        var url = searchUrl + '?q=' + encodeURIComponent(query);
 
-        fetch(url, { headers: { 'Accept-Language': 'vi,en' } })
+        fetch(url, { headers: { 'Accept': 'application/json' } })
             .then(function (r) { return r.json(); })
             .then(function (data) {
                 status.textContent = '';
@@ -276,7 +284,6 @@
             });
     }
 
-    /* ── Keyboard navigation ── */
     addrInput.addEventListener('keydown', function (e) {
         var items = dropdown.querySelectorAll('.dd-item');
         if (e.key === 'ArrowDown') {
@@ -299,7 +306,6 @@
         }
     });
 
-    /* ── Debounced input / paste ── */
     addrInput.addEventListener('input', function () {
         clearTimeout(debounceTimer);
         var q = addrInput.value.trim();
@@ -315,36 +321,35 @@
         }, 60);
     });
 
-    /* ── Đóng dropdown khi click ra ngoài ── */
     document.addEventListener('click', function (e) {
         if (!document.getElementById('addr-wrapper').contains(e.target)) {
             hideDropdown();
         }
     });
 
-    /* ── Nút xóa ── */
     clearBtn.addEventListener('click', function () {
         addrInput.value = '';
         latInput.value  = '';
         lngInput.value  = '';
         dispLat.textContent = '—';
         dispLng.textContent = '—';
-        section.style.display = 'none';
         status.textContent = '';
         status.className   = '';
         hideDropdown();
         if (marker && map) { map.removeLayer(marker); marker = null; }
+        if (map) map.setView([DEFAULT_LAT, DEFAULT_LNG], DEFAULT_ZOOM);
     });
 
-    /* ── Khởi tạo khi edit (đã có tọa độ sẵn) ── */
     document.addEventListener('DOMContentLoaded', function () {
         var initLat = parseFloat(latInput.value);
         var initLng = parseFloat(lngInput.value);
         if (!isNaN(initLat) && !isNaN(initLng)) {
-            initMap(initLat, initLng);
+            initMap(initLat, initLng, PIN_ZOOM);
             placeMarker(initLat, initLng, false);
-            // Lấy lại địa chỉ từ tọa độ đã lưu để điền vào ô tìm kiếm
             reverseGeocode(initLat, initLng);
+        } else {
+            // Hiện bản đồ mặc định (Hà Nội) để click ghim ngay được
+            initMap(DEFAULT_LAT, DEFAULT_LNG, DEFAULT_ZOOM);
         }
     });
 }());

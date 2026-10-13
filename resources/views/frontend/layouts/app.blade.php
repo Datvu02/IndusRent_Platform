@@ -6,10 +6,10 @@
     <title>@yield('title', __('common.tagline'))</title>
     <meta name="description" content="@yield('meta_description', __('common.tagline'))">
     <link rel="canonical" href="@yield('canonical_url', url()->current())">
-    <link rel="stylesheet" href="{{ asset('css/clone-chothuexuong.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/theme-golden.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/logo-fix.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/frontend-filter.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/clone-chothuexuong.css') }}?v={{ @filemtime(public_path('css/clone-chothuexuong.css')) ?: time() }}">
+    <link rel="stylesheet" href="{{ asset('css/theme-golden.css') }}?v={{ @filemtime(public_path('css/theme-golden.css')) ?: time() }}">
+    <link rel="stylesheet" href="{{ asset('css/logo-fix.css') }}?v={{ @filemtime(public_path('css/logo-fix.css')) ?: time() }}">
+    <link rel="stylesheet" href="{{ asset('css/frontend-filter.css') }}?v={{ @filemtime(public_path('css/frontend-filter.css')) ?: time() }}">
     @stack('styles')
 </head>
 <body>
