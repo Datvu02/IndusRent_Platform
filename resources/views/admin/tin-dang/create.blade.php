@@ -101,6 +101,14 @@
                 <input type="file" name="main_image" accept="image/*" class="form-control" style="max-width:600px;">
                 <small style="color:#666;">JPG, PNG, WebP. Tối đa 2MB</small>
             </div>
+
+            <div style="margin-bottom:16px;padding:16px;background:#f8f9fa;border-radius:8px;">
+                <label style="display:block;font-weight:bold;margin-bottom:6px;">
+                    <i class="fas fa-images"></i> Thư viện ảnh (nhiều ảnh)
+                </label>
+                <input type="file" name="gallery[]" accept="image/*" multiple class="form-control" style="max-width:600px;">
+                <small style="color:#666;">Chọn nhiều ảnh cùng lúc. JPG, PNG, WebP. Mỗi ảnh tối đa 2MB</small>
+            </div>
             
             <div style="margin-bottom:16px;">
                 <label style="display:block;font-weight:bold;margin-bottom:6px;">Mô tả</label>

@@ -262,7 +262,9 @@ document.addEventListener('DOMContentLoaded', function() {
                                     <span class="home-featured-news-card-placeholder" aria-hidden="true"></span>
                                 @endif
                             </div>
-                            <h3 class="home-featured-news-card-title">{{ $news->title_translated }}</h3>
+                            <h3 class="home-featured-news-card-title">
+                                <span class="home-featured-news-card-title-text">{{ $news->title_translated }}</span>
+                            </h3>
                         </a>
                     </article>
                     @endforeach

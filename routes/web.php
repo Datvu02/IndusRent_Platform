@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\PropertyController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\SliderController;
+use App\Http\Controllers\Api\GeocodeController;
 use App\Http\Controllers\Api\LocationController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\HomeController;
@@ -131,6 +132,8 @@ Route::prefix('api')->name('api.')->group(function () {
     Route::get('/provinces', [LocationController::class, 'getProvinces'])->name('provinces');
     Route::get('/districts', [LocationController::class, 'getDistricts'])->name('districts');
     Route::get('/wards', [LocationController::class, 'getWards'])->name('wards');
+    Route::get('/geocode/search', [GeocodeController::class, 'search'])->name('geocode.search');
+    Route::get('/geocode/reverse', [GeocodeController::class, 'reverse'])->name('geocode.reverse');
 });
 
 Route::prefix('admin')->name('admin.')->group(function () {

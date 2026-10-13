@@ -8,22 +8,41 @@ use Illuminate\Support\Str;
 
 class ImportLocations extends Command
 {
-    protected $signature = 'import:locations';
-    protected $description = 'Import VN locations from local JSON';
+    protected $signature = 'import:locations {--fresh : Truncate locations table before import}';
+    protected $description = 'Import VN locations from local JSON (provinces/districts/wards)';
 
     public function handle()
     {
-        $this->info('🚀 Import from local JSON...');
+        $provincesPath = storage_path('app/locations/provinces.json');
+        $districtsPath = storage_path('app/locations/districts.json');
+        $wardsPath = storage_path('app/locations/wards.json');
 
-        $provinces = json_decode(file_get_contents(storage_path('app/locations/provinces.json')), true);
-        $districts = json_decode(file_get_contents(storage_path('app/locations/districts.json')), true);
-        $wards = json_decode(file_get_contents(storage_path('app/locations/wards.json')), true);
+        foreach ([$provincesPath, $districtsPath, $wardsPath] as $path) {
+            if (!is_file($path)) {
+                $this->error("Missing file: {$path}");
+                return self::FAILURE;
+            }
+        }
+
+        $this->info('Importing VN locations from local JSON...');
+
+        $provinces = array_values(json_decode(file_get_contents($provincesPath), true) ?: []);
+        $districts = array_values(json_decode(file_get_contents($districtsPath), true) ?: []);
+        $wards = array_values(json_decode(file_get_contents($wardsPath), true) ?: []);
+
+        if (empty($provinces) || empty($districts) || empty($wards)) {
+            $this->error('JSON files are empty or invalid.');
+            return self::FAILURE;
+        }
 
         DB::beginTransaction();
 
         try {
-            $rows = [];
-            $count = 0;
+            if ($this->option('fresh')) {
+                // Keep properties that reference locations; only clear location rows we can replace.
+                DB::table('locations')->delete();
+                $this->warn('Cleared existing locations.');
+            }
 
             $districtMap = [];
             foreach ($districts as $d) {
@@ -35,34 +54,45 @@ class ImportLocations extends Command
                 $provinceMap[$p['code']] = $p;
             }
 
-            foreach ($wards as $ward) {
+            $rows = [];
+            $count = 0;
+            $skipped = 0;
 
+            foreach ($wards as $ward) {
                 $district = $districtMap[$ward['parent_code']] ?? null;
-                if (!$district) continue;
+                if (!$district) {
+                    $skipped++;
+                    continue;
+                }
 
                 $province = $provinceMap[$district['parent_code']] ?? null;
-                if (!$province) continue;
+                if (!$province) {
+                    $skipped++;
+                    continue;
+                }
 
-                $provinceName = $province['name'];
-                $districtName = $district['name'];
-                $wardName = $ward['name'];
+                $provinceName = $province['name'] ?? $province['name_with_type'] ?? null;
+                $districtName = $district['name_with_type'] ?? $district['name'] ?? null;
+                $wardName = $ward['name_with_type'] ?? $ward['name'] ?? null;
 
-                $slug = Str::slug($provinceName . '-' . $districtName . '-' . $wardName);
+                if (!$provinceName || !$districtName || !$wardName) {
+                    $skipped++;
+                    continue;
+                }
+
+                $slug = Str::slug($provinceName . '-' . $districtName . '-' . $wardName . '-' . ($ward['code'] ?? $count));
+
                 $rows[] = [
                     'province' => $provinceName,
                     'province_en' => null,
                     'province_zh' => null,
-
                     'district' => $districtName,
                     'district_en' => null,
                     'district_zh' => null,
-
                     'ward' => $wardName,
                     'ward_en' => null,
                     'ward_zh' => null,
-                    
                     'slug' => $slug,
-
                     'created_at' => now(),
                     'updated_at' => now(),
                 ];
@@ -73,28 +103,31 @@ class ImportLocations extends Command
                     DB::table('locations')->upsert(
                         $rows,
                         ['slug'],
-                        ['updated_at']    
+                        ['province', 'district', 'ward', 'updated_at']
                     );
                     $rows = [];
-                    $this->info("Inserted {$count}");
+                    $this->info("Upserted {$count}...");
                 }
             }
 
             if (!empty($rows)) {
-                    DB::table('locations')->upsert(
-                        $rows,
-                        ['slug'],
-                        ['updated_at']    
-                    );
+                DB::table('locations')->upsert(
+                    $rows,
+                    ['slug'],
+                    ['province', 'district', 'ward', 'updated_at']
+                );
             }
 
             DB::commit();
 
-            $this->info("✅ DONE: {$count} records");
+            $this->info("DONE: {$count} wards imported" . ($skipped ? " ({$skipped} skipped)" : ''));
+            $this->info('Provinces available: ' . DB::table('locations')->distinct()->count('province'));
 
+            return self::SUCCESS;
         } catch (\Exception $e) {
             DB::rollBack();
             $this->error($e->getMessage());
+            return self::FAILURE;
         }
     }
 }

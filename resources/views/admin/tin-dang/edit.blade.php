@@ -108,6 +108,27 @@
                 <input type="file" name="main_image" accept="image/*" class="form-control" style="max-width:600px;">
                 <small style="color:#666;">JPG, PNG, WebP. Tối đa 2MB. Để trống nếu không đổi.</small>
             </div>
+
+            <div style="margin-bottom:16px;padding:16px;background:#f8f9fa;border-radius:8px;">
+                <label style="display:block;font-weight:bold;margin-bottom:6px;">
+                    <i class="fas fa-images"></i> Thư viện ảnh (nhiều ảnh)
+                </label>
+                @if(!empty($property->gallery) && is_array($property->gallery))
+                    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:12px;margin-bottom:12px;">
+                        @foreach($property->gallery as $index => $image)
+                            <div style="position:relative;border:1px solid #e5e7eb;border-radius:8px;overflow:hidden;background:#fff;">
+                                <img src="{{ asset('storage/' . $image) }}" alt="Gallery" style="width:100%;height:100px;object-fit:cover;display:block;">
+                                <label style="display:flex;align-items:center;gap:6px;padding:6px 8px;font-size:12px;color:#dc2626;cursor:pointer;">
+                                    <input type="checkbox" name="remove_gallery[]" value="{{ $image }}">
+                                    Xóa
+                                </label>
+                            </div>
+                        @endforeach
+                    </div>
+                @endif
+                <input type="file" name="gallery[]" accept="image/*" multiple class="form-control" style="max-width:600px;">
+                <small style="color:#666;">Thêm ảnh mới (giữ ảnh cũ nếu không tick Xóa). JPG, PNG, WebP. Mỗi ảnh tối đa 2MB</small>
+            </div>
             
             <div style="margin-bottom:16px;">
                 <label style="display:block;font-weight:bold;margin-bottom:6px;">Mô tả</label>
